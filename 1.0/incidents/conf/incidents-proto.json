@@ -12,7 +12,7 @@
 		{
 			"name":"Incidents",
 			"classification":"Unclassififed",
-			"description":"{{description}}",
+			"description":"This layer contains dummy incidents data.  The contained herein is entirely unclassified.  The data is updated as needed.",
 			"type":"GeoJSON",
 			"projection":"EPSG:4326",
 			"minZoom":0,
