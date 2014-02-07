@@ -1,4 +1,4 @@
-Incidents Template, Version 1.0
+Incidents Example, Version 1.0
 =========================
 
 | Templates: | [OSM](https://github.com/state-hiu/cybergis-client-templates/blob/master/1.0/osm) |  [Incidents](https://github.com/state-hiu/cybergis-client-templates/blob/master/1.0/incidents) |
