@@ -1,7 +1,7 @@
 Incidents Example, Version 1.0
 =========================
 
-| Templates: | [OSM](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/osm) |  [Incidents](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/incidents) |
+| Examples: | [OSM](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/osm) |  [Incidents](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/incidents) |
 | ---- |  ---- | ---- |
 
 ## CyberGIS
