@@ -6,7 +6,26 @@
 		<!-- CSS -->
 
 		<!-- JavaScript -->
-
+		<script type="text/javascript" language="Javascript">
+			var hiu =
+			{
+				'client': undefined,
+				'urls':
+				{
+					'library':
+					{
+						'proto': 'conf/osm-library-proto.json',
+						'carto': 'conf/osm-library-carto.json'
+					},
+					'app':
+					{
+						'properties': 'conf/incidents-properties.json',
+						'proto': 'conf/incidents-proto.json',
+						'carto': 'conf/incidents-carto.json'
+					}
+				}
+			};
+		</script>
 	</head>
 	<body>
 		<div id="map_incidents" style="position:absolute;top:0px;left:0px;bottom:0px;right:0px;"
@@ -19,24 +38,6 @@
 		<script type="text/javascript" language="Javascript">
 			$(function()
 			{
-				var hiu =
-				{
-					'client': undefined,
-					'urls':
-					{
-						'library':
-						{
-							'proto': 'conf/osm-library-proto.json',
-							'carto': 'conf/osm-library-carto.json'
-						},
-						'app':
-						{
-							'properties': 'conf/incidents-properties.json',
-							'proto': 'conf/incidents-proto.json',
-							'carto': 'conf/incidents-carto.json'
-						}
-					}
-				};
 				hiu.client = new CyberGIS.Client("map_incidents","OpenLayers",hiu.urls,function(){console.log("Done Loading");},hiu,{});
 				hiu.client.init_begin();
 			});
