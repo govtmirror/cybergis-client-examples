@@ -26,7 +26,7 @@
 							{"name":"name","label":"Name"},
 							{"name":"location2","label":"Location"},
 							{"name":"megacity","label":"Mega City"},
-							{"name":"sov0name","label":"Sovereign"}
+							{"name":"sovereign","label":"Sovereign"}
 						]
 					},
 					{
