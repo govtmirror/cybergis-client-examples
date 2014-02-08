@@ -57,7 +57,7 @@
 						"type":"basic",
 						"attributes":
 						[
-							{"name":"location2","label":"Location"},
+							{"name":"location3","label":"Location"},
 							{"label":"Latitude","type":"latitude"},
 							{"label":"Longitude","type":"longitude"}
 						]	
