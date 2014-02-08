@@ -40,6 +40,18 @@
 						]	
 					},
 					{
+						"name":"location",
+						"label":"Location",
+						"tab":{"classnames":"hiu-tab-1"},
+						"type":"basic",
+						"attributes":
+						[
+							{"name":"location2","label":"Location"},
+							{"label":"Latitude","type":"latitude"},
+							{"label":"Longitude","type":"longitude"}
+						]	
+					},
+					{
 						"name":"links",
 						"label":"Links",
 						"tab":{"classnames":"hiu-tab-1"},
