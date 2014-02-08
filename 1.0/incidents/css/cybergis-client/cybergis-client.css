@@ -1,0 +1,9 @@
+.hiu-tab
+{
+	float:left;
+	-moz-user-select:none;
+	-khtml-user-select:none;
+	-webkit-user-select:none;
+}
+.hiu-tab-1{width:80px;font-size:14px;padding:1px;}
+.hiu-tab-2{width:58px;font-size:14px;padding:1px;}
