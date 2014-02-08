@@ -32,7 +32,7 @@
 						{"op":"concat","output":"location2","input":["${SubCity}"," in ","${location2}"],"where":{"op":"!=","field":"SubCity","value":""}},
 						
 						{"op":"split","output":"categories_2","input":"Categories","delimiter":","},
-						{"op":"join","output":"categories_3","input":"categories_2","delimiter":", "},
+						{"op":"join","output":"categories_3","input":"categories_2","delimiter":", "}
 					]
 				}
 			]
