@@ -40,6 +40,17 @@
 						]	
 					},
 					{
+						"name":"source",
+						"label":"Source",
+						"tab":{"classnames":"hiu-tab-1"},
+						"type":"basic",
+						"attributes":
+						[
+							{"name":"Date Published","label":"Date Published"},
+							{"name":"Source URL","label":"Source URL"}
+						]	
+					},
+					{
 						"name":"location",
 						"label":"Location",
 						"tab":{"classnames":"hiu-tab-1"},
