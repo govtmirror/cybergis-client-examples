@@ -30,6 +30,10 @@
 		{"name":"google","label":"Google Maps","classification":"Unclassified","description":"","url":{"page":"https://maps.google.com/maps?q=","delimiter":",","order":"y,x"}},
 		{"name":"osm","label":"OpenStreetMap","classification":"Unclassified","description":"","url":{"page":"http://www.openstreetmap.org/#map=","delimiter":"/","order":"z,y,x","precision":4}}
 	],
+	"wikis":
+	[
+		{"name":"geonames","label":"GeoNames","classification":"Unclassified","description":"","url":"http://www.geonames.org/"}
+	],
 	"bookmarks": {"delimiter":"\t","url":"bookmarks/locator-bookmarks.tsv"},
 	"glossaries":
 	[
