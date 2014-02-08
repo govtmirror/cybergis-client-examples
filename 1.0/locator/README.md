@@ -10,7 +10,7 @@ The Locator CyberGIS client application allows users to quickly and easily searc
 
 **Template**
 
-The Locator CyberGIS client application is dervied from the locator template found [here](https://github.com/state-hiu/cybergis-client-templates/blob/master/1.0/locator);
+The Locator CyberGIS client application is dervied from the locator template found [here](https://github.com/state-hiu/cybergis-client-templates/blob/master/1.0/locator).
 
 
 ## CyberGIS
