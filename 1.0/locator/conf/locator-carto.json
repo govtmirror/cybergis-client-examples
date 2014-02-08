@@ -8,8 +8,8 @@
 				"type":"advanced",
 				"title":
 				{
-					"base":"Title",
-					"suffix":" (Incident)"
+					"base":"name",
+					"suffix":" (Location)"
 				},
 				"width":450,
 				"height":280,
@@ -23,32 +23,9 @@
 						"type":"basic",
 						"attributes":
 						[
-							{"name":"Title","label":"Title"},
-							{"name":"location2","label":"Location"},
-							{"name":"Date Incident","label":"Date of Incident"}
+							{"name":"name","label":"Name"},
+							{"name":"location2","label":"Location"}
 						]
-					},
-					{
-						"name":"description",
-						"label":"Description",
-						"tab":{"classnames":"hiu-tab-1"},
-						"type":"basic",
-						"attributes":
-						[
-							{"name":"categories_3","label":"Categories"},
-							{"name":"Description","label":"Description"}
-						]	
-					},
-					{
-						"name":"source",
-						"label":"Source",
-						"tab":{"classnames":"hiu-tab-1"},
-						"type":"basic",
-						"attributes":
-						[
-							{"name":"Date Published","label":"Date Published"},
-							{"name":"Source URL","label":"Source URL"}
-						]	
 					},
 					{
 						"name":"location",
