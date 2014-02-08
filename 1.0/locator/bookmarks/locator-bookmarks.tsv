@@ -1,3 +1,4 @@
 name	label	type	latitude	longitude	zoom	layer	field	value
 full_extent	Full Extent	location	38.8972	-77.0243	12	-	-	-
 1	Washington, USA	feature	-	-	12	locations	geonameid	4140963
+2	London, UK	feature	-	-	12	locations	geonameid	2643743
