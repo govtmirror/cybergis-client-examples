@@ -52,23 +52,6 @@
 						]
 					}
 				]
-			},
-			"boxes":
-			{
-				"basic":
-				{
-					"title":"Experience",
-					"tasks":
-					[
-						{"op":"sum","output":"sum_good","input":"Good Time"},
-						{"op":"sum","output":"sum_bad","input":"Bad Time"}
-					],
-					"fields":
-					[
-						{"name":"sum_good","label":"Good Time"},
-						{"name":"sum_bad","label":"Bad Time"}
-					]
-				}
 			}
 		}
 	}
