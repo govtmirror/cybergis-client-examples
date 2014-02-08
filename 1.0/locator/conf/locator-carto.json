@@ -24,7 +24,8 @@
 						"attributes":
 						[
 							{"name":"name","label":"Name"},
-							{"name":"location2","label":"Location"}
+							{"name":"location2","label":"Location"},
+							{"name":"megacity","label":"Mega City"}
 						]
 					},
 					{
