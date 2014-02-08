@@ -4,6 +4,15 @@ Locator Example, Version 1.0
 | Examples: | [OSM](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/osm) |  [Incidents](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/incidents) |   [Locator](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/locator) |
 | ---- |  ---- | ---- | ---- |
 
+## Locator
+
+The Locator CyberGIS client application allows users to quickly and easily search over a large number of locations, using non-linguistic identifiers (P-Codes), Latitude/Longitude (Decimal degrees or DMS), MGRS, or location names.
+
+**Template**
+
+The Locator CyberGIS client application is dervied from the locator template found [here](https://github.com/state-hiu/cybergis-client-templates/blob/master/1.0/locator);
+
+
 ## CyberGIS
 The Humanitarian Information Unit has been developing a sophisticated geographic computing infrastructure referred to as the CyberGIS. The CyberGIS provides highly available, scalable, reliable, and timely geospatial services capable of supporting multiple concurrent projects.  The CyberGIS relies on primarily open source projects, such as PostGIS, GeoServer, GDAL, OGR, and OpenLayers.  The name CyberGIS is dervied from the term geospatial cyberinfrastructure.
 
