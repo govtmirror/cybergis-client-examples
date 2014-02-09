@@ -3534,7 +3534,7 @@ CyberGIS.Map.OpenLayers = CyberGIS.Class
 		{
 			if(OpenLayers.Control.AdvancedSearch!=undefined)
 			{
-				var searchOptions = {carto:c,selectControl:select};
+				var searchOptions = {carto:c,selectControl:focus};
 				if(options!=undefined)
 				{
 					if(options.search!=undefined)
