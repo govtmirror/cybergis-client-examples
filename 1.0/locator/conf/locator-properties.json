@@ -41,4 +41,5 @@
 	],
 	"baseLayers":["osm"],
 	"featureLayers":["locations"]
+	"searchLayers":["locations"]
 }
