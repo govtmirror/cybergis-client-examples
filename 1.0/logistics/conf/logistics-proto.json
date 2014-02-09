@@ -17,7 +17,7 @@
 			"projection":"EPSG:4326",
 			"minZoom":0,
 			"maxZoom":18,
-			"url":"http://geonode.wfp.org/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode%3Awld_trs_ports_wfp&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature",
+			"url":"http://geonode.wfp.org/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode%3Awld_trs_ports_wfp&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature&cql_filter=iso3 IN (SDN,ETH,KEN,UGA,SOM,SSD,DJI,ERI)",
 			"select":true,
 			"popup":true,
 			"jit":
