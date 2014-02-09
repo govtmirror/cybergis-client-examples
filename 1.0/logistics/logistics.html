@@ -35,21 +35,21 @@
 				{
 					'library':
 					{
-						'proto': 'conf/locator-library-proto.json',
-						'carto': 'conf/locator-library-carto.json'
+						'proto': 'conf/logistics-library-proto.json',
+						'carto': 'conf/logistics-library-carto.json'
 					},
 					'app':
 					{
-						'properties': 'conf/locator-properties.json',
-						'proto': 'conf/locator-proto.json',
-						'carto': 'conf/locator-carto.json'
+						'properties': 'conf/logistics-properties.json',
+						'proto': 'conf/logistics-proto.json',
+						'carto': 'conf/logistics-carto.json'
 					}
 				}
 			};
 		</script>
 	</head>
 	<body>
-		<div id="map_locator" style="position:absolute;top:0px;left:0px;bottom:0px;right:0px;"
+		<div id="map_logistics" style="position:absolute;top:0px;left:0px;bottom:0px;right:0px;"
 			data-map-bookmarks="yes"
 			data-map-control-zoom="yes"
 			data-map-track="yes"
@@ -62,7 +62,7 @@
 		<script type="text/javascript" language="Javascript">
 			$(function()
 			{
-				hiu.client = new CyberGIS.Client("map_locator","OpenLayers",hiu.urls,function(){console.log("Done Loading");},hiu,{});
+				hiu.client = new CyberGIS.Client("map_logistics","OpenLayers",hiu.urls,function(){console.log("Done Loading");},hiu,{});
 				hiu.client.init_begin();
 			});
 		</script>
