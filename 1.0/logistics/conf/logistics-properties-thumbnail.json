@@ -1,14 +1,14 @@
 {
-	"element":"map_incidents",
-	"name": "Incidents Example",
-	"title":"Incidents Example - HIU",
+	"element":"map_logistics",
+	"name": "Logistics Example",
+	"title":"Logistics Example - HIU",
 	"domain":"http://state-hiu.github.io",
-	"context":"/cybergis-client-examples/1.0/incidents",
+	"context":"/cybergis-client-examples/1.0/logistics",
 	"pages":
 	{
-		"main":"incidents.html",
-		"thumbnail":"incidents-thumbnail.html",
-		"embed":"incidents-embed.html"
+		"main":"logistics.html",
+		"thumbnail":"logistics-thumbnail.html",
+		"embed":"logistics-embed.html"
 	},
 	"classification":"Unclassified",
 	"projection":"EPSG:900913",
@@ -29,5 +29,6 @@
 		}
 	},
 	"baseLayers":["osm"],
-	"featureLayers":["incidents"]
+	"featureLayers":["ports","airports"],
+	"searchLayers":["ports","airports"]
 }
