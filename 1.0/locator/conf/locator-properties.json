@@ -41,6 +41,6 @@
 		{"name":"glossary","label":"Glossary","delimiter":"\t","url":"glossaries/locator-glossary.tsv"}
 	],
 	"baseLayers":["osm"],
-	"featureLayers":["locations"]
+	"featureLayers":["locations"],
 	"searchLayers":["locations"]
 }
