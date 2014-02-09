@@ -1,12 +1,14 @@
 {
 	"layers":
 	{
-		"osm":
+		"mapbox":
 		{
-			"name":"OSM",
+			"name":"MapBox",
 			"classification":"Unclassified",
-			"description":"OpenStreetMap is a free, editable map of the whole world.",
-			"type":"OSM"
+			"description":"This layer is a composite of LSIB boundaries, East Africa Production Systems, and World Blank Light",
+			"type":"MapBox",
+			"layername":"mapbox.world-blank-light,hiu.east-africa-major-production-systems,hiu.lsib-dark",
+			"maxZoom":10
 		}
 	}
 }

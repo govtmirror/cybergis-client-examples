@@ -35,32 +35,34 @@
 				{
 					'library':
 					{
-						'proto': 'conf/mapbox-library-proto.json',
-						'carto': 'conf/mapbox-library-carto.json'
+						'proto': 'conf/locator-library-proto.json',
+						'carto': 'conf/locator-library-carto.json'
 					},
 					'app':
 					{
-						'properties': 'conf/mapbox-properties.json',
-						'proto': 'conf/mapbox-proto.json',
-						'carto': 'conf/mapbox-carto.json'
+						'properties': 'conf/locator-properties.json',
+						'proto': 'conf/locator-proto.json',
+						'carto': 'conf/locator-carto.json'
 					}
 				}
 			};
 		</script>
 	</head>
 	<body>
-		<div id="map_mapbox" style="position:absolute;top:0px;left:0px;bottom:0px;right:0px;"
+		<div id="map_locator" style="position:absolute;top:0px;left:0px;bottom:0px;right:0px;"
 			data-map-bookmarks="yes"
 			data-map-control-zoom="yes"
 			data-map-track="yes"
 			data-map-nav="yes"
-			data-map-select="no"
+			data-map-select="yes"
+			data-map-box-layer="incidents"
+			data-map-search="yes"
 		>
 		</div>
 		<script type="text/javascript" language="Javascript">
 			$(function()
 			{
-				hiu.client = new CyberGIS.Client("map_mapbox","OpenLayers",hiu.urls,function(){console.log("Done Loading");},hiu,{});
+				hiu.client = new CyberGIS.Client("map_locator","OpenLayers",hiu.urls,function(){console.log("Done Loading");},hiu,{});
 				hiu.client.init_begin();
 			});
 		</script>
