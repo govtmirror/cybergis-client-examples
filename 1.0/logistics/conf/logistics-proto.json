@@ -8,7 +8,7 @@
 			"description":"OpenStreetMap is a free, editable map of the whole world.",
 			"type":"OSM"
 		},
-		"ports":
+		"ports_local":
 		{
 			"name":"Global Ports",
 			"classification":"Unclassififed",
@@ -16,8 +16,8 @@
 			"type":"GeoJSON",
 			"projection":"EPSG:4326",
 			"minZoom":0,
-			"maxZoom":18,
-			"url":"http://geonode.wfp.org/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode%3Awld_trs_ports_wfp&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature&cql_filter=iso3 IN ('SDN','ETH','KEN','UGA','SOM','SSD','DJI','ERI')",
+			"maxZoom":16,
+			"url":"GeoJSON",
 			"select":true,
 			"popup":true,
 			"jit":
@@ -35,21 +35,16 @@
 				}
 			]
 		},
-		"ports_wfs":
+		"ports_cors":
 		{
 			"name":"Global Ports",
 			"classification":"Unclassififed",
 			"description":"This layer contains port locations worldwide.  The contained herein is entirely unclassified.  The data is pulled directly from WFP's GeoNode.",
-			"type":"Vector",
+			"type":"GeoJSON",
 			"projection":"EPSG:4326",
 			"minZoom":0,
 			"maxZoom":18,
-			"authenticated":false,
-			"httpMethod":"GET",
-			"layername":"wld_trs_ports_wfp",
-			"workspace":"geonode",
-			"workspace":"geonode",
-			"url":"http://geonode.wfp.org/geoserver/wfs",
+			"url":"http://geonode.wfp.org/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode%3Awld_trs_ports_wfp&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature&cql_filter=iso3 IN ('SDN','ETH','KEN','UGA','SOM','SSD','DJI','ERI')",
 			"select":true,
 			"popup":true,
 			"jit":
