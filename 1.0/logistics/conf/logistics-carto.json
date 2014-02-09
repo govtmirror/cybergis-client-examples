@@ -210,12 +210,9 @@
 						[
 							{"name":"wfpid","label":"WFP ID"},
 							{"name":"name","label":"Name"},
-							{"name":"location3","label":"Location"},
-							{"name":"iata","label":"IATA"},
-							{"name":"icao","label":"ICAO"},
-							{"name":"apttype","label":"Type"},
-							{"name":"aptclass","label":"Class"}
-							
+							{"name":"status","label":"Status"},
+							{"name":"customs","label":"Customs"},
+							{"name":"countries","label":"Countries"}
 						]
 					},
 					{
@@ -225,8 +222,8 @@
 						"type":"basic",
 						"attributes":
 						[
-							{"name":"location3","label":"Location"},
-							{"name":"country2","label":"Country"},
+							{"name":"countries","label":"Countries"},
+							{"name":"locprecision","label":"Geographic Precision"},
 							{"label":"Latitude","type":"latitude"},
 							{"label":"Longitude","type":"longitude"}
 						]	
