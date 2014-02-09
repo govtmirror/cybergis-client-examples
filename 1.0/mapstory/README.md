@@ -3,13 +3,13 @@ MapStory Example, Version 1.0
 
 | Examples: | [OSM](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/osm) |  [Incidents](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/incidents) |  [Locator](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/locator) | [MapStory](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/mapstory) | [MapBox](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/mapbox) |
 | ---- |  ---- | ---- | ---- | ---- | ---- |
-## Locator
+## Description
 
-The Locator CyberGIS client application allows users to quickly and easily search over a large number of locations, using non-linguistic identifiers (P-Codes), Latitude/Longitude (Decimal degrees or DMS), MGRS, or location names.
+The MapStory CyberGIS client application allows users to navigate spatially and temporally through layers hosted by the MapStory Foundation on MapStory.org.
 
 **Template**
 
-The Locator CyberGIS client application is dervied from the locator template found [here](https://github.com/state-hiu/cybergis-client-templates/blob/master/1.0/locator).
+The MapBox CyberGIS client application is dervied from the MapStory template found [here](https://github.com/state-hiu/cybergis-client-templates/blob/master/1.0/mapstory).
 
 
 ## CyberGIS
