@@ -1940,7 +1940,7 @@ OpenLayers.Control.AdvancedLegend = OpenLayers.Class(OpenLayers.Control,
     {
     	if(this.isAnimated())
 		{
-    		this.expand();
+    		this.collapse();
 		}
     	else
     	{
