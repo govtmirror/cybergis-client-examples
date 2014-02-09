@@ -1,14 +1,14 @@
 {
-	"element":"map_locator",
-	"name": "Locator Example",
-	"title":"Locator Example - HIU",
+	"element":"map_logistics",
+	"name": "Logistics Example",
+	"title":"Logistics Example - HIU",
 	"domain":"http://state-hiu.github.io",
-	"context":"/cybergis-client-examples/1.0/locator",
+	"context":"/cybergis-client-examples/1.0/logistics",
 	"pages":
 	{
-		"main":"locator.html",
-		"thumbnail":"locator-thumbnail.html",
-		"embed":"locator-embed.html"
+		"main":"logistics.html",
+		"thumbnail":"logistics-thumbnail.html",
+		"embed":"logistics-embed.html"
 	},
 	"classification":"Unclassified",
 	"projection":"EPSG:900913",
@@ -35,12 +35,12 @@
 	[
 		{"name":"geonames","label":"GeoNames","classification":"Unclassified","description":"","url":"http://www.geonames.org/"}
 	],
-	"bookmarks": {"delimiter":"\t","url":"bookmarks/locator-bookmarks.tsv"},
+	"bookmarks": {"delimiter":"\t","url":"bookmarks/logistics-bookmarks.tsv"},
 	"glossaries":
 	[
-		{"name":"glossary","label":"Glossary","delimiter":"\t","url":"glossaries/locator-glossary.tsv"}
+		{"name":"glossary","label":"Glossary","delimiter":"\t","url":"glossaries/logistics-glossary.tsv"}
 	],
 	"baseLayers":["osm"],
-	"featureLayers":["locations"],
-	"searchLayers":["locations"]
+	"featureLayers":["ports","airports"],
+	"searchLayers":["ports","airports"]
 }
