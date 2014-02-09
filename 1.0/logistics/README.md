@@ -6,7 +6,7 @@ Logistics Example, Version 1.0
 
 ## Description
 
-The Logistics CyberGIS client application allows users to quickly browse and search over logistics information, such as ports, airports, etc.  The client application pulls data directly from WFP.
+The Logistics CyberGIS client application allows users to quickly browse and search over logistics information, such as ports, airports, etc.  The client application pulls data directly from WFP's GeoNode (see [http://geonode.wfp.org](http://geonode.wfp.org)).
 
 **Template**
 
