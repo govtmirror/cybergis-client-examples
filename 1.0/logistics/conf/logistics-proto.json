@@ -17,7 +17,7 @@
 			"projection":"EPSG:4326",
 			"minZoom":0,
 			"maxZoom":16,
-			"url":"GeoJSON",
+			"url":"data/ports.geojson",
 			"select":true,
 			"popup":true,
 			"jit":
@@ -44,7 +44,8 @@
 			"projection":"EPSG:4326",
 			"minZoom":0,
 			"maxZoom":18,
-			"url":"http://geonode.wfp.org/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode%3Awld_trs_airports_wfp&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature&cql_filter=iso3 IN ('SDN','ETH','KEN','UGA','SOM','SSD','DJI','ERI')",
+			"original":"http://geonode.wfp.org/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode%3Awld_trs_airports_wfp&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature&cql_filter=iso3 IN ('SDN','ETH','KEN','UGA','SOM','SSD','DJI','ERI')",
+			"url":"data/airports.geojson",
 			"select":true,
 			"popup":true,
 			"jit":
