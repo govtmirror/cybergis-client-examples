@@ -1,7 +1,7 @@
 {
 	"layers":
 	{
-		"locations":
+		"ports":
 		{
 			"popup":
 			{
@@ -9,7 +9,7 @@
 				"title":
 				{
 					"base":"name",
-					"suffix":" (Location)"
+					"suffix":" (Port)"
 				},
 				"width":450,
 				"height":280,
@@ -23,10 +23,9 @@
 						"type":"basic",
 						"attributes":
 						[
+							{"name":"wfpid","label":"WFP ID"},
 							{"name":"name","label":"Name"},
-							{"name":"location2","label":"Location"},
-							{"name":"megacity","label":"Mega City"},
-							{"name":"sovereign","label":"Sovereign"}
+							{"name":"location","label":"Location"}
 						]
 					},
 					{
@@ -37,7 +36,6 @@
 						"attributes":
 						[
 							{"name":"location3","label":"Location"},
-							{"name":"geonameid","label":"GeoNameId"},
 							{"label":"Latitude","type":"latitude"},
 							{"label":"Longitude","type":"longitude"}
 						]	
@@ -49,7 +47,7 @@
 						"type":"basic",
 						"attributes":
 						[
-							{"name":"geonameid","label":"GeoNames","type":"wiki","wiki":"geonames"},
+							
 							{"label":"Google Maps","type":"app","app":"google"},
 							{"label":"OpenStreetMap","type":"app","app":"osm"}
 						]
