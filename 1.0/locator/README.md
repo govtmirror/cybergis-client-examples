@@ -1,10 +1,10 @@
 Locator Example, Version 1.0
 =========================
 
-| Examples: | [OSM](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/osm) |  [Incidents](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/incidents) |   [Locator](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/locator) |
-| ---- |  ---- | ---- | ---- |
+| Examples: | [OSM](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/osm) |  [Incidents](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/incidents) |  [Locator](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/locator) |   [MapStory](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/mapstory) |
+| ---- |  ---- | ---- | ---- | ---- |
 
-## Locator
+## Description
 
 The Locator CyberGIS client application allows users to quickly and easily search over a large number of locations, using non-linguistic identifiers (P-Codes), Latitude/Longitude (Decimal degrees or DMS), MGRS, or location names.
 
