@@ -54,6 +54,60 @@
 					}
 				]
 			}
+		},
+		"airports":
+		{
+			"popup":
+			{
+				"type":"advanced",
+				"title":
+				{
+					"base":"name",
+					"suffix":" (Airport)"
+				},
+				"width":450,
+				"height":280,
+				"opacity":0.9,
+				"views":
+				[
+					{
+						"name":"overview",
+						"label":"Overview",
+						"tab":{"classnames":"hiu-tab-1"},
+						"type":"basic",
+						"attributes":
+						[
+							{"name":"wfpid","label":"WFP ID"},
+							{"name":"name","label":"Name"},
+							{"name":"location","label":"Location"}
+						]
+					},
+					{
+						"name":"location",
+						"label":"Location",
+						"tab":{"classnames":"hiu-tab-1"},
+						"type":"basic",
+						"attributes":
+						[
+							{"name":"location3","label":"Location"},
+							{"label":"Latitude","type":"latitude"},
+							{"label":"Longitude","type":"longitude"}
+						]	
+					},
+					{
+						"name":"links",
+						"label":"Links",
+						"tab":{"classnames":"hiu-tab-1"},
+						"type":"basic",
+						"attributes":
+						[
+							
+							{"label":"Google Maps","type":"app","app":"google"},
+							{"label":"OpenStreetMap","type":"app","app":"osm"}
+						]
+					}
+				]
+			}
 		}
 	}
 }
