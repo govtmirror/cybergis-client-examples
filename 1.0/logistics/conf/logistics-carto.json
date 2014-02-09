@@ -113,6 +113,40 @@
 						]
 					}
 				]
+			},
+			"style":
+			{
+				"intents":
+				{
+					"default":
+					{
+						"templates":"logistics:airport",
+						"properties":
+						{
+							"externalGraphic": "img/logistics_airport_20px.png"
+						}
+					},
+					"wheel":
+					{
+						"templates":"logistics:airport",
+						"properties":
+						{
+							"externalGraphic": "img/logistics_airport_20px.png"
+						}
+					},
+					"select":
+					{
+						"templates":"logistics:airport",
+						"properties":
+						{
+							"externalGraphic": "img/logistics_airport_20px_bluebox.png"
+						}
+					},
+					"close":
+					{
+						"templates":"core:close"
+					}
+				}
 			}
 		}
 	}
