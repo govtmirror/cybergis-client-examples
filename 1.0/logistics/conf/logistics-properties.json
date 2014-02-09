@@ -41,6 +41,6 @@
 		{"name":"glossary","label":"Glossary","delimiter":"\t","url":"glossaries/logistics-glossary.tsv"}
 	],
 	"baseLayers":["osm"],
-	"featureLayers":["ports","airports"],
-	"searchLayers":["ports","airports"]
+	"featureLayers":["ports_wfs"],
+	"searchLayers":["ports_wfs"]
 }
