@@ -1,8 +1,8 @@
 Incidents Example, Version 1.0
 =========================
 
-| Examples: | [OSM](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/osm) |  [Incidents](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/incidents) |   [Locator](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/locator) |
-| ---- |  ---- | ---- | ---- |
+| Examples: | [OSM](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/osm) |  [Incidents](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/incidents) |  [Locator](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/locator) |   [MapStory](https://github.com/state-hiu/cybergis-client-examples/blob/master/1.0/mapstory) |
+| ---- |  ---- | ---- | ---- | ---- |
 
 ## Description
 
