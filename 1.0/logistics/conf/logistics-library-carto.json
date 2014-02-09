@@ -3,6 +3,19 @@
 	{
 		"templates":
 		{
+			"core":
+			{
+				"close":
+				{
+					"display":"",
+					"cursor":"pointer",
+					"fillColor":"#d92302",
+					"fillOpacity":1.0,
+					"strokeOpacity":1.0,
+					"strokeColor":"#000000",
+					"pointRadius":6
+				}
+			},
 			"logistics":
 			{
 				"airports":
