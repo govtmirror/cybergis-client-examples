@@ -5657,7 +5657,7 @@ OpenLayers.Control.AdvancedSelectFeatureWheel = OpenLayers.Class(OpenLayers.Cont
     		OpenLayers.Element.addClass(btn,"x-btn-pressed");
     	}
     	
-    	if(this.hasPopupFunction(f.link.layer))
+    	if(this.hasPopup(f.link.layer))
 		{
     		if(this.isJITLayer(f.link.layer))
         	{
@@ -5689,9 +5689,9 @@ OpenLayers.Control.AdvancedSelectFeatureWheel = OpenLayers.Class(OpenLayers.Cont
 	{
 		return this.primary.atCenter.apply(this.primary,[f]);
 	},
-	hasPopupFunction: function(layer)
+	hasPopup: function(layer)
 	{
-		return this.primary.hasPopupFunction.apply(this.primary,[layer]);
+		return this.primary.hasPopup.apply(this.primary,[layer]);
 	},
 	queuePopupFunction_Core: function(f,layer,attributes,anchorLocation,anchorPosition,onClose)
 	{
