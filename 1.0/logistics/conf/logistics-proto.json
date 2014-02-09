@@ -41,7 +41,7 @@
 			"classification":"Unclassififed",
 			"description":"This layer contains port locations worldwide.  The contained herein is entirely unclassified.  The data is pulled directly from WFP's GeoNode.",
 			"type":"Vector",
-			"projection":"EPSG:4326",
+			"projection":"EPSG:900913",
 			"minZoom":0,
 			"maxZoom":18,
 			"authenticated":false,
