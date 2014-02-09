@@ -41,6 +41,7 @@
 		{"name":"glossary","label":"Glossary","delimiter":"\t","url":"glossaries/logistics-glossary.tsv"}
 	],
 	"baseLayers":["osm"],
-	"featureLayers":["ports","airports"],
-	"searchLayers":["ports","airports"]
+	"featureLayers":["ports","airports","border_crossings"],
+	"searchLayers":["ports","airports","border_crossings"],
+	"legendLayers":["ports","airports","border_crossings"]
 }
