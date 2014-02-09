@@ -3,6 +3,7 @@
 	{
 		"ports":
 		{
+			"legend":{"label":"Ports","symbol":"marker"},
 			"popup":
 			{
 				"type":"advanced",
@@ -91,6 +92,7 @@
 		},
 		"airports":
 		{
+			"legend":{"label":"Airports","symbol":"marker"},
 			"popup":
 			{
 				"type":"advanced",
