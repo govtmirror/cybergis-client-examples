@@ -75,8 +75,7 @@
 			"projection":"EPSG:4326",
 			"minZoom":0,
 			"maxZoom":18,
-			"original":"http://geonode.wfp.org/geoserver/wfs?srsName=EPSG%3A4326&typename=geonode%3Awld_trs_airports_wfp&outputFormat=json&version=1.0.0&service=WFS&request=GetFeature&cql_filter=iso3 IN ('SDN','ETH','KEN','UGA','SOM','SSD','DJI','ERI')",
-			"url":"data/airports.geojson",
+			"url":"data/border_crossings.geojson",
 			"select":true,
 			"popup":true,
 			"jit":
