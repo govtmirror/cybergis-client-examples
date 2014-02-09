@@ -2693,6 +2693,7 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
     acLabel: "label",
     acFeatures: [],
     acSource: [],
+    acLabels: [],
     
     targetFeature: undefined,
     targetZoom: undefined,
@@ -2858,6 +2859,7 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
     {
     	this.acFeatures = [];
     	this.acSource = [];
+    	this.acLabels = [];
     	for(var i = 0; i < layers.length; i++)
     	{
     		var layer = layers[i]; 
@@ -2880,6 +2882,7 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
 						this.acFeatures.push(f);
 						this.acSource.push(label);
 					}
+					this.acLabels.push(label);
         		}
         	}
     	}
@@ -2889,6 +2892,7 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
     {
     	this.acFeatures = [];
     	this.acSource = [];
+    	this.acLabels = [];
     	if(layer!=undefined)
     	{
     		for(var i = 0; i < layer.features.length; i++)
@@ -2898,6 +2902,7 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
     			
     			this.acFeatures.push(f);
     			this.acSource.push(label);
+			this.acLabels.push(label);
     		}
     	}
     },
@@ -2905,6 +2910,7 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
     refreshAutocomplete: function()
     {
     	$(this.searchInput).data("acSource",this.acSource);
+    	$(this.searchInput).data("acLabels",this.acLabels);
     },
     setLegendItems: function(proto,items)
     {
@@ -3757,7 +3763,7 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
 				minLength:0,
 				source:function(request,response)
 				{
-					var aSource = $(this.element).data('acSource');
+					var aSource = $(this.element).data('acLabels');
 					if(aSource!=undefined)
 					{
 						response($.ui.autocomplete.filter(aSource,request.term));
@@ -3863,7 +3869,7 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
 		{
 			if(type=="single")
 			{
-				var index = $.inArray(line,jqInput.data('acSource'));
+				var index = $.inArray(line,jqInput.data('acLabels'));
 				if(index!=-1)
 				{
 					this.setAutocompleteTarget(this.acFeatures[index]);
