@@ -57,7 +57,7 @@
 						{"op":"concat","output":"name","input":["${nameshort}"]},
 						{"op":"concat","output":"name_search","input":["${name}"," (","${wfpid}",")"]},
 						
-						{"op":"concat","output":"country2","input":["${country}",", ","${iso3}"]},
+						{"op":"concat","output":"country2","input":["${country}"," (","${iso3}",")"]},
 						{"op":"concat","output":"location2","input":["${country}"]},
 						{"op":"concat","output":"location3","input":["${country}"]},
 						{"op":"concat","output":"location3","input":["${city}",", ","${country}"],"where":{"op":"!=","field":"city","value":"NULL"}}
