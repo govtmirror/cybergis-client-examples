@@ -184,6 +184,101 @@
 					}
 				}
 			}
+		},
+		"border_crossings":
+		{
+			"legend":{"label":"Border Crossings","symbol":"marker"},
+			"popup":
+			{
+				"type":"advanced",
+				"title":
+				{
+					"base":"name",
+					"suffix":" (Border Crossing)"
+				},
+				"width":450,
+				"height":280,
+				"opacity":0.9,
+				"views":
+				[
+					{
+						"name":"overview",
+						"label":"Overview",
+						"tab":{"classnames":"hiu-tab-1"},
+						"type":"basic",
+						"attributes":
+						[
+							{"name":"wfpid","label":"WFP ID"},
+							{"name":"name","label":"Name"},
+							{"name":"location3","label":"Location"},
+							{"name":"iata","label":"IATA"},
+							{"name":"icao","label":"ICAO"},
+							{"name":"apttype","label":"Type"},
+							{"name":"aptclass","label":"Class"}
+							
+						]
+					},
+					{
+						"name":"location",
+						"label":"Location",
+						"tab":{"classnames":"hiu-tab-1"},
+						"type":"basic",
+						"attributes":
+						[
+							{"name":"location3","label":"Location"},
+							{"name":"country2","label":"Country"},
+							{"label":"Latitude","type":"latitude"},
+							{"label":"Longitude","type":"longitude"}
+						]	
+					},
+					{
+						"name":"links",
+						"label":"Links",
+						"tab":{"classnames":"hiu-tab-1"},
+						"type":"basic",
+						"attributes":
+						[
+							
+							{"label":"Google Maps","type":"app","app":"google"},
+							{"label":"OpenStreetMap","type":"app","app":"osm"}
+						]
+					}
+				]
+			},
+			"style":
+			{
+				"intents":
+				{
+					"default":
+					{
+						"templates":"logistics:border_crossing",
+						"properties":
+						{
+							"externalGraphic": "img/physical_barrier_border_crossing_20px.png"
+						}
+					},
+					"wheel":
+					{
+						"templates":"logistics:border_crossing",
+						"properties":
+						{
+							"externalGraphic": "img/physical_barrier_border_crossing_20px.png"
+						}
+					},
+					"select":
+					{
+						"templates":"logistics:border_crossing",
+						"properties":
+						{
+							"externalGraphic": "img/physical_barrier_border_crossing_20px_bluebox.png"
+						}
+					},
+					"close":
+					{
+						"templates":"core:close"
+					}
+				}
+			}
 		}
 	}
 }
