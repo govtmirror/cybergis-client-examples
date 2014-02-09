@@ -3813,7 +3813,7 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
 			jqInput.removeData('ac-id');
 			status = 0;
 		}
-		else if(line.match(new RegExp("[-+]?[0-9]*\.?[0-9]*,[-+]?[0-9]*\.?[0-9]*")))
+		else if(line.match(new RegExp("^([-+]?\\d*[.]?\\d*)(\\s*)[,](\\s*)([-+]?\\d*[.]?\\d*)$")))
 		{
 			var coord = line.split(",");
 			var strLon = coord[1].trim();
@@ -3830,7 +3830,7 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
 			
 			selectControl.focusOnItem.apply(selectControl,[undefined,targetLocation]);
 		}
-		else if(line.match(new RegExp("[-+]?[0-9]*\.?[0-9]*,[-+]?[0-9]*\.?[0-9]*,[0-9]{1,2}")))
+		else if(line.match(new RegExp("^([-+]?\\d*[.]?\\d*)(\\s*)[,](\\s*)([-+]?\\d*[.]?\\d*)(\\s*)[,](\\s*)(\\d{1-2})$")))
 		{
 			var coord = line.split(",");
 			var strLon = coord[1].trim();
