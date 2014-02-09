@@ -79,7 +79,9 @@
 						[
 							{"name":"wfpid","label":"WFP ID"},
 							{"name":"name","label":"Name"},
-							{"name":"location","label":"Location"}
+							{"name":"location","label":"Location"},
+							{"name":"iata","label":"IATA"},
+							{"name":"icao","label":"ICAO"}
 						]
 					},
 					{
