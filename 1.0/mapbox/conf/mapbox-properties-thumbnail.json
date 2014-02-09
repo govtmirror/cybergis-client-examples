@@ -1,14 +1,14 @@
 {
-	"element":"map_osm",
-	"name": "OpenStreetMap Example",
-	"title":"OpenStreetMap Example - HIU",
+	"element":"map_mapbox",
+	"name": "MapBox Example",
+	"title":"MapBox Example - HIU",
 	"domain":"http://state-hiu.github.io",
-	"context":"/cybergis-client-examples/1.0/osm",
+	"context":"/cybergis-client-examples/1.0/mapbox",
 	"pages":
 	{
-		"main":"osm.html",
-		"thumbnail":"osm-thumbnail.html",
-		"embed":"osm-embed.html"
+		"main":"mapbox.html",
+		"thumbnail":"mapbox-thumbnail.html",
+		"embed":"mapbox-embed.html"
 	},
 	"classification":"Unclassified",
 	"projection":"EPSG:900913",
@@ -28,5 +28,5 @@
 			"rightText":"Basemap: Copyright <a href=\"http://openstreetmap.org/\">OpenStreetMap</a> contributors"
 		}
 	},
-	"baseLayers":["osm"]
+	"baseLayers":["mapbox"]
 }
