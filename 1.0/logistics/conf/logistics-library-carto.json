@@ -18,7 +18,7 @@
 			},
 			"logistics":
 			{
-				"airports":
+				"airport":
 				{
 					"display":"",
 						
@@ -36,7 +36,7 @@
 					"graphicWidth": 20,
 					"graphicHeight": 20
 				},
-				"ports":
+				"port":
 				{
 					"display":"",
 						
