@@ -81,7 +81,10 @@
 							{"name":"name","label":"Name"},
 							{"name":"location","label":"Location"},
 							{"name":"iata","label":"IATA"},
-							{"name":"icao","label":"ICAO"}
+							{"name":"icao","label":"ICAO"},
+							{"name":"apttype","label":"Type"},
+							{"name":"aptclass","label":"Class"}
+							
 						]
 					},
 					{
