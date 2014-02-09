@@ -54,12 +54,10 @@
 					"refresh":{"init":true,"focus":false},
 					"tasks":
 					[
-						{"op":"concat","output":"name_search","input":["${name}"," (","${geonameid}",")"]},
+						{"op":"concat","output":"name","input":["${nameshort}"]},
+						{"op":"concat","output":"name_search","input":["${name}"," (","${wfpid}",")"]},
 						
-						{"op":"concat","output":"sovereign","input":["${sov0name}"," (","${sov_a3}",")"]},
-						{"op":"concat","output":"location2","input":["${name}",", ","${adm0name}"]},
-						{"op":"concat","output":"location3","input":["${name}",", ","${adm0name}"]},
-						{"op":"concat","output":"location3","input":["${name}",", ","${adm1name}",", ","${adm0name}"],"where":{"op":"!=","field":"adm1name","value":""}}
+						{"op":"concat","output":"location","input":["${country}",", ","${iso3}"]}
 					]
 				}
 			]
