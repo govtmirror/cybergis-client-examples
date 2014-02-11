@@ -18,7 +18,6 @@ However, because the project utilizes code licensed from contributors and other 
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
 CyberGIS =
 {
 	lastSeqID: 0,
@@ -160,6 +159,7 @@ CyberGIS =
 	},
 	isArray: function(a)
 	{
+	    //return (Object.prototype.toString.call(a) === '[object Array]');
 		return $.isArray(a);
 	},
 	isString: function(a)
@@ -957,8 +957,11 @@ CyberGIS =
 				return ai > bi;
 			}
 		});
+	},
+	escapeRegex: function(value)
+	{
+		return value.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&");
 	}
-
 };
 
 CyberGIS.Client = CyberGIS.Class
@@ -975,7 +978,7 @@ CyberGIS.Client = CyberGIS.Class
 	properties: undefined,
 	proto: undefined,
 	
-	carto_app: undefined,
+	carto_app: undefined,//Assembled to be {"layers":"","library":""}
 	carto_library: undefined,
 	
 	callbackFunction: undefined,
@@ -1039,7 +1042,7 @@ CyberGIS.Client = CyberGIS.Class
 			}
 			else
 			{
-				clearTimeout(hiu.timer.resize);
+				clearTimeout(that.timers.resize);
 				that.timers.resize = undefined;
 			}
 			that.timers.resize = setTimeout(function(){that.timers.resize = undefined; that.resize();},500);
@@ -1699,13 +1702,15 @@ CyberGIS.State = CyberGIS.Class
 	initialize: function(map,element,sName,title,pages,domain,context,timeType,sMinDate,sMaxDate,iMinZoom,iMaxZoom,iZoom,sProjection,pX,pY,pLon,pLat,pTrack,baseLayer)
 	{
 		 this.displayClass = this.CLASS_NAME.replace("CyberGIS.", "cybergis-").replace(/\./g, "");
-		 
+		 //CyberGIS.extend(this, options);
 		 if (this.id == null)
 		 {
 			 this.id = CyberGIS.createUniqueID(this.CLASS_NAME + "_");
 		 }
 		 
 		 this.nullIsland = new OpenLayers.LonLat(0,0);
+		 
+		 //this.element = element;
 		 this.track = this.buildTrack(element,pTrack);
 		 this.name = sName;
 		 this.title = title;
@@ -1741,7 +1746,8 @@ CyberGIS.State = CyberGIS.Class
 		{
 			var that = this;
 			var bl = this.map.map.baseLayer;
-			this.sourceProjection = this.map.map.getProjectionObject();
+			//this.sourceProjection = this.map.map.getProjectionObject();
+			this.sourceProjection = new OpenLayers.Projection(this.map.map.projection);/* This is necessary, b/c if the baseLayer doesn't load correctly then it will return the first vector's layers projection instead of the actual projection.*/
 			bl.events.register('moveend',bl,function()
 	      	{
 				that.onMoveEnd.apply(that);
@@ -1837,6 +1843,7 @@ CyberGIS.State = CyberGIS.Class
 			
 			this.currentDateRange = undefined;
 			this.currentTimeRange = undefined;
+			//this.current
 		}
 		
 		/* Location */
@@ -1955,7 +1962,7 @@ CyberGIS.State = CyberGIS.Class
 					}
 					else if(eLon!=undefined&&eLat!=undefined)
 					{
-						center = new OpenLayers.LonLat(eLat,eLon);
+						center = new OpenLayers.LonLat(eLon,eLat);
 						center.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));
 					}
 					else
@@ -2259,7 +2266,7 @@ CyberGIS.PCodes = CyberGIS.Class
 	callbackFunction: undefined,
 	callbackContext: undefined,
 	
-	pcodes: undefined,// Map: Level --> CyberGIS.File.HashMap
+	pcodes: undefined,// Map of Level to CyberGIS.File.HashMap
 
 	files: undefined,
 	index: 0,
@@ -2369,7 +2376,7 @@ CyberGIS.Glossaries = CyberGIS.Class
 	{
 		if(this.debug){console.log('init_file');}
 		
-		this.glossaries.push(new CyberGIS.File.Glossary(name,label,url,delimiter,this.init_files,this));
+		this.glossaries.push(new CyberGIS.File.Glossary(name,label,url,delimiter,this.init_files,this));//CyberGIS.File.Glossary(hiu.url.app.glossary,"\t",this.init_conf_proto,this);
 	},
 	
 	destroy: function ()
@@ -2454,7 +2461,7 @@ CyberGIS.Wiki = CyberGIS.Class
 	initialize: function (name,label,classification,description,url)
 	{
 		 this.displayClass = this.CLASS_NAME.replace("CyberGIS.", "cybergis-").replace(/\./g, "");
-		 
+		 //CyberGIS.extend(this, options);
 		 if (this.id == null)
 		 {
 			 this.id = CyberGIS.createUniqueID(this.CLASS_NAME + "_");
@@ -2558,6 +2565,7 @@ CyberGIS.App = CyberGIS.Class
 	label: undefined,
 	classification: undefined,
 	description: undefined,
+	//url: undefined,
 	page: undefined,
 	querystring: undefined,
 	delimiter: undefined,
@@ -2567,7 +2575,7 @@ CyberGIS.App = CyberGIS.Class
 	initialize: function (name,label,classification,description,url)
 	{
 		 this.displayClass = this.CLASS_NAME.replace("CyberGIS.", "cybergis-").replace(/\./g, "");
-		 
+		 //CyberGIS.extend(this, options);
 		 if (this.id == null)
 		 {
 			 this.id = CyberGIS.createUniqueID(this.CLASS_NAME + "_");
@@ -2742,7 +2750,7 @@ CyberGIS.DataSources = CyberGIS.Class
 		
 		if(type=="pcode")
 		{
-			this.sources[""+name] = new CyberGIS.DataSource.PCoded(name,label,url,delimiter,key,this.init_files,this);
+			this.sources[""+name] = new CyberGIS.DataSource.PCoded(name,label,url,delimiter,key,this.init_files,this);//CyberGIS.File.Glossary(hiu.url.app.glossary,"\t",this.init_conf_proto,this);
 		}
 		else if(type=="hashmap")
 		{
@@ -2823,7 +2831,7 @@ CyberGIS.Map.OpenLayers = CyberGIS.Class
 		this.callbackContext = callbackContext;
 		
 		this.client = client;
-		
+		//this.state = client.state;
 		this.mapID = mapID;
 		this.element = element;
 		
@@ -2887,6 +2895,9 @@ CyberGIS.Map.OpenLayers = CyberGIS.Class
 		
 		this.maxExtent = this.init_bounds(element,this.proto_baselayer_primary);
 		
+		//this.minZoom = this.init_attr(element,"mapMinZoom",this.primaryBaseLayerName,"minZoom",0);//var minZoom = mapElement.data('mapMinZoom');
+		//this.maxZoom = this.init_attr(element,"mapMaxZoom",this.primaryBaseLayerName,"maxZoom",10);//var maxZoom = mapElement.data('mapMaxZoom');
+		
 		this.bTitle = this.init_boolean(element.data('mapTitle'));
 		this.bLink = this.init_boolean(element.data('mapLink'));
 		this.bNav = this.init_boolean(element.data('mapNav'));
@@ -2896,6 +2907,8 @@ CyberGIS.Map.OpenLayers = CyberGIS.Class
 		this.bTime = this.init_boolean(element.data('mapTime'));
 		this.bLegend = this.init_boolean(element.data('mapLegend'));
 		this.bSearch = this.init_boolean(element.data('mapSearch'));
+		//this.center = this.init_center(element);
+		//this.zoom = element.data('mapZoom');
 		
 		this.chartLayerName = CyberGIS.getParameter(["chartLayers","chartLayer"], url, ",", true)||element.data('mapChartLayers')||element.data('mapChartLayer')||properties["chartLayers"]||properties["chartLayer"];
 		this.chartName = element.data('mapChartName') || "basic";
@@ -2904,6 +2917,7 @@ CyberGIS.Map.OpenLayers = CyberGIS.Class
 		this.boxName = element.data('mapBoxName') || "basic";
 		
 		/* Feature Layers*/
+		//this.defaultFeatureLayerNames = this.init_array(element.data('mapFeatureLayers')||element.data('mapFeatureLayer')||element.data('featureLayer')||element.data('mapFeatureLayer')||properties["featureLayers"]);
 		this.defaultFeatureLayerNames = this.init_array(CyberGIS.getDataAsStringArray(["mapFeatureLayers","mapFeatureLayer","featureLayers","featureLayer"],element,",")||properties["featureLayers"]||properties["featureLayer"]);
 		this.featureLayerNames = CyberGIS.getParameterAsStringArray(["fl","featureLayer","featureLayers","layers"], url, ",", true)||this.defaultFeatureLayerNames;
 		
@@ -3060,12 +3074,14 @@ CyberGIS.Map.OpenLayers = CyberGIS.Class
 							
 							baseLayer = new OpenLayers.Layer.MapBox(pbl.name,options);
 						}
-						else if(type=="openLayers.layer.osm"||type=="osm"||type=="openstreetmap")
+						else if(type=="openlayers.layer.osm"||type=="osm"||type=="openstreetmap")
 						{
 							baseLayer = new OpenLayers.Layer.OSM(pbl.name,pbl.url,{minResolution:this.getMinResolution(),maxResolution:this.getMaxResolution(),displayOutsideMaxExtent: false,wrapDateLine: false,isBaseLayer:(i==0)});
 						}
 						else if(type=="openlayers.layer.hiutilecache")
-						{							
+						{
+							//minResolution:r[maxZoom],maxResolution:r[minZoom]
+							//[156543.03390625,78271.516953125,39135.7584765625,19567.87923828125,9783.939619140625,4891.9698095703125,2445.9849047851562,1222.9924523925781,611.4962261962891,305.74811309814453,152.87405654907226,76.43702827453613,38.218514137268066,19.109257068634033,9.554628534317017,4.777314267158508,2.388657133579254,1.194328566789627,0.5971642833948135]
 							baseLayer = new OpenLayers.Layer.HIUTileCache(pbl.name,{layername:pbl.layername,minResolution:r[18],maxResolution:r[0],resolutions:r,displayOutsideMaxExtent: false,wrapDateLine: false,isBaseLayer:(i==0)});
 						}
 						else if(type=="openLayers.layer.wms"||type=="wms")
@@ -3318,7 +3334,6 @@ CyberGIS.Map.OpenLayers = CyberGIS.Class
 		{
 			proto: protoname,
 			protocol: protocol,
-			projection: new OpenLayers.Projection(pfl.projection),
 			'styleMap':styleMap,
 			'popup': popup
 		};
@@ -3446,7 +3461,8 @@ CyberGIS.Map.OpenLayers = CyberGIS.Class
 			}
 			focus = new OpenLayers.Control.Focus(selectOptions);
 		}
-
+		//
+		//var attribution = new OpenLayers.Control.Attribution();
 		var title = undefined;
 		if(this.bTitle)
 		{
@@ -4492,6 +4508,7 @@ CyberGIS.Tree.Node = CyberGIS.Class
 	initialize: function (key)
 	{
 		 this.displayClass = this.CLASS_NAME.replace("CyberGIS.", "cybergis-").replace(/\./g, "");
+		 //CyberGIS.extend(this, options);
 		 if (this.id == null)
 		 {
 			 this.id = CyberGIS.createUniqueID(this.CLASS_NAME + "_");
@@ -4871,6 +4888,7 @@ CyberGIS.Dialog.Data = CyberGIS.Class(CyberGIS.Dialog.Basic,
 			heading.html('<span>Layers</span>');
 			content.append(heading);
 
+			//$.each(this.layers,function(i,proto)
 			for(var i = 0; i < this.layers.length; i++)
 			{
 				var layer = this.layers[i];
@@ -5217,7 +5235,8 @@ CyberGIS.Dialog.Share = CyberGIS.Class(CyberGIS.Dialog.Basic,
 	onModeClicked: function(mode)
 	{
 		this.mode = mode;
-
+		//this.reset();
+		//this.refreshDefault();
 		if(this.mode=="link")
 		{
 			this.name = "";
