@@ -3334,6 +3334,7 @@ CyberGIS.Map.OpenLayers = CyberGIS.Class
 		{
 			proto: protoname,
 			protocol: protocol,
+			projection: new OpenLayers.Projection(pfl.projection),
 			'styleMap':styleMap,
 			'popup': popup
 		};
