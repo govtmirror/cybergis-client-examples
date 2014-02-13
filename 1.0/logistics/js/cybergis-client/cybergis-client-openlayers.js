@@ -1,24 +1,28 @@
-/*
-===========Author===========
-U.S. Department of State, Humanitarian Information Unit
-
-===========Version===========
-1.0 / February 8, 2014
-
-===========Description===========
-The cybergis-client-openlayers javascript file contains the CyberGIS client application code specific to OpenLayers, including Openlayers.Strategy.JIT, OpenLayers.Control.Focus, OpenLayers.Control.AdvancedSearch, and OpenLayers.Control.AdvancedChart.  It is neccessary for all CyberGIS client applications when those controls, formats, strategies, etc. are used.  It should come after cybergis-client-openlayers-base and cybergis-client-core are loaded.
-
-===========CyberGIS===========
-The Humanitarian Information Unit has been developing a sophisticated geographic computing infrastructure referred to as the CyberGIS. The CyberGIS provides highly available, scalable, reliable, and timely geospatial services capable of supporting multiple concurrent projects.  The CyberGIS relies on primarily open source projects, such as PostGIS, GeoServer, GDAL, OGR, and OpenLayers.  The name CyberGIS is dervied from the term geospatial cyberinfrastructure.
-
-===========License===========
-This project constitutes a work of the United States Government and is not subject to domestic copyright protection under 17 USC § 105.
-
-However, because the project utilizes code licensed from contributors and other third parties, it therefore is licensed under the MIT License. http://opensource.org/licenses/mit-license.php. Under that license, permission is granted free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the conditions that any appropriate copyright notices and this permission notice are included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/**
+* original OpenLayers.Control.AdvancedChart.js
+* @author U.S. Department of State, Humanitarian Information Unit
+* @version 1.0
 */
 
+/**
+ * @author U.S. Department of State, Humanitarian Information Unit
+ * @version 1.0
+ */
+
+/**
+ * @requires OpenLayers/Control.js
+ */
+
+/**
+ * Class: OpenLayers.Control.AdvancedLegend
+ * The TimeSlider control selects refreshes TimeVector layers based on the date selected.
+ *
+ * Inherits from:
+ *  - <OpenLayers.Control>
+ *  
+ *  @author U.S. Department of State, Humanitarian Information Unit
+ *  @version 1.0
+ */
 OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
 {
 	//Constant Variables
@@ -53,10 +57,16 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
 	padding: 40,
 		
     layer: null,//OpenLayers.Layer.TimeVector
+    //field_label: null,//Name of numeric field that is being visualized
+    //field_value: null,//Name of numeric field that is being visualized
     
     //D3 Variables
-    chartTitle: "",
-    chartNotes:[],
+    chartTitle: "Syrians in Need of Assistance",
+    //"<span>E*: Egypt &amp; North Africa (Algeria, Libya, Morocco, and Tunisia)</span>"
+    chartNotes:
+    [
+     "<span>North Africa: Algeria, Libya, Morocco, and Tunisia</span>"
+    ],
     chartData: undefined,
     chartPadding:
     {
@@ -73,11 +83,37 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     chartScale: undefined,
     labelAngleMinimum: 0.2,
     
+    
+    
     svg: undefined,
     pie: undefined,
     paths: undefined,
     chartTotal: undefined,
     chartDate: undefined,
+    
+    /*arcTween: function(a)
+    {
+		var i = d3.interpolate(this._current, a);
+		this._current = i(0);
+		return function(t)
+		{
+			return arc(i(t));
+		};
+	},
+	pie_update: function ()
+	{
+		var value = this.value;
+		
+		pie.value(function(d) { return d.value; });
+		
+		var arcs = svg.selectAll("g.arc")
+			.data(pie);
+			
+		arcs.transition()
+			.duration(500)
+			.attrTween("d", arcTween);
+	},*/
+    
     
     /**
      * @since 1.0
@@ -431,6 +467,14 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     },
     refreshChartData: function()
     {
+    	/*	  chartDataset:
+		    [
+		     {"name":"E*","poc":83267,"percent":"5"},
+		     {"name":"Lebanon","poc":495776,"percent":"31"},
+		     {"name":"Jordan","poc":491912,"percent":"31"},
+		     {"name":"Turkey","poc":377154,"percent":"23"},
+		     {"name":"Iraq","poc":153976,"percent":"10"},
+		    ],*/
     	if(this.check_defined([this.sLayer,this.sChart]))
     	{
     		var fLabel = this.getLabelField(this.sLayer,this.sChart);
@@ -471,6 +515,7 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     },
     refreshChartScale: function()
     {
+    	//var fValue = this.getValueField(this.sLayer,this.sChart);
     	if(this.check_defined([this.sLayer,this.sChart]))
     	{
     		var rBar = this.getBarRange(this.sLayer,this.sChart);
@@ -777,11 +822,28 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     },
     refreshBarChart: function()
     {
+    	//$(this.barChart).html("");
+    	
+    	//this.arc = d3.svg.arc().innerRadius(this.innerRadius).outerRadius(this.outerRadius);
+		//d3.select(this.barChart).append("svg").attr("width", this.chartWidth).attr("height", this.chartHeight);
+		
+		//var data = this.refreshChartData();
+		//this.appendPieChartPaths(this.pieChart,this.arc,data);
+		
 		var total = this.getTotalValue();
 		this.chartCanvas.selectAll("rect").transition().attr("y", this.chartScale(total)).attr("height", this.chartScale(0) - this.chartScale(total));
     },
     refreshPieChart: function()
     {
+    	//$(this.pieChart).html("");
+    	
+    	//this.arc = d3.svg.arc().innerRadius(this.innerRadius).outerRadius(this.outerRadius);
+		//d3.select(this.pieChart).append("svg").attr("width", this.chartWidth).attr("height", this.chartHeight);
+		
+		//var data = this.refreshChartData();
+    	
+    	
+    	
     	var gPie = this.chartCanvas.selectAll("g.pie");
     	gPie.selectAll("g.arc, g.label").data([]).exit().remove();
 		this.appendPieChartPaths(this.chartCanvas,gPie,this.arc,this.chartData);
@@ -10280,11 +10342,13 @@ OpenLayers.Protocol.SOAP = OpenLayers.Class(OpenLayers.Protocol.HTTP,
 OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
 {
 	regex_field: "^(\\${)(\\w+)(})$",
+	regex_bbox: "^(\\s*)([-+]?\\d*[.]?\\d*)(\\s*)[,](\\s*)([-+]?\\d*[.]?\\d*)(\\s*)[,](\\s*)([-+]?\\d*[.]?\\d*)(\\s*)[,](\\s*)([-+]?\\d*[.]?\\d*)(\\s*)$",
 	
 	//refresh: undefined,
 	//join: undefined,
 	//file: undefined,
 	//agg: undefined,
+	grep: undefined,/* Global Grep for all features.  Executed first within onLoadEvent before jobs execute*/
 	jobs: undefined,
 	
 	listeners: [],//{url,context,job}
@@ -10292,20 +10356,29 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
 	hideEmpty: true,
 	
 	allFeatures: undefined,
+	validFeatures: undefined,/* Grep'd allFeatures if grep != undefined*/
 	activeFeatures: undefined,
+	
+	/* These variables are updated at the beginning of onLoadEnd and should be valid during any job*/
+	currentExtent: undefined,
 
-	initialize: function(jobs, options)
+	initialize: function(jobs, grep, options)
     {
 		OpenLayers.Strategy.Fixed.prototype.initialize.apply(this, [options]);
         if(OpenLayers.Util.isArray(jobs))
         {
         	this.setJobs(jobs);
         }
+        this.setGrep(grep);
     },
     
     setJobs: function(jobs)
     {
     	this.jobs = jobs;
+    },
+    setGrep: function(grep)
+    {
+    	this.grep = grep;
     },
     getJob: function(i)
     {
@@ -10394,6 +10467,9 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     },    
     onLoadEnd: function()
     {
+    	this.currentExtent = this.getCurrentExtent();
+    	this.validFeatures = this.grepFeatures(this.allFeatures);
+    	/////////////////////////////////    	
     	for(var i = 0; i < this.jobs.length; i++)
     	{
     		var job = this.jobs[i];
@@ -10475,6 +10551,31 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     		}
     	}
     },
+    grepFeatures: function(features)
+    {
+    	if(this.grep!=undefined)
+    	{
+    		var that = this;
+        	return $.grep(features,function(f){return that.testFeature.apply(that,[f,f.attributes,that.grep]);});
+    	}
+    	return features;
+    },
+    
+    
+    getCurrentExtent: function()
+    {
+    	var extent = undefined;
+    	var m = this.layer.map;
+    	var c = m.getCachedCenter();
+    	var r = m.getResolution();    
+        if ((c != null) && (r != null))
+        {
+            var halfWDeg = (m.size.w * r) / 2;
+            var halfHDeg = (m.size.h * r) / 2;        
+            extent = new OpenLayers.Bounds(c.lon - halfWDeg, c.lat - halfHDeg, c.lon + halfWDeg, c.lat + halfHDeg);
+        }
+        return extent;
+    },
     
     runJob: function(i)
     {
@@ -10492,9 +10593,9 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     {
     	if(job.tasks!=undefined)
     	{
-        	for(var i = 0; i < this.allFeatures.length; i++) 
+        	for(var i = 0; i < this.validFeatures.length; i++) 
     		{
-    			var f = this.allFeatures[i];
+    			var f = this.validFeatures[i];
 	    		for(var j = 0; j < job.tasks.length; j++)
 	    		{
 	    			var task = job.tasks[j];
@@ -10509,11 +10610,11 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     		if(job.grep!=undefined)
     		{
     			var that = this;
-    			this.activeFeatures = $.grep(this.allFeatures,function(f,i){return that.testFeature(f.attributes,job.grep);});
+    			this.activeFeatures = $.grep(this.validFeatures,function(f,i){return that.testFeature(f,f.attributes,job.grep);});
     		}
     		else
     		{
-    			this.activeFeatures = this.allFeatures;
+    			this.activeFeatures = this.validFeatures;
     		}
     	}
     	else if(job.type=="advanced")
@@ -10521,7 +10622,7 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     		if(job.grep!=undefined)
     		{
     			var that = this;
-    			this.activeFeatures = $.grep(this.allFeatures,function(f,i){return that.testFeature(feature.attributes,job.grep);});
+    			this.activeFeatures = $.grep(this.validFeatures,function(f,i){return that.testFeature(f,f.attributes,job.grep);});
     			
     			if(this.hideEmpty)
         		{
@@ -10532,11 +10633,11 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     		{
     			if(this.hideEmpty)
         		{
-        			this.activeFeatures = $.grep(this.allFeatures,function(f,i){return f.attributes.jit.length>0;});
+        			this.activeFeatures = $.grep(this.validFeatures,function(f,i){return f.attributes.jit.length>0;});
         		}
         		else
         		{
-        			this.activeFeatures = this.allFeatures;	
+        			this.activeFeatures = this.validFeatures;	
         		}
     		}
     	}
@@ -10576,9 +10677,9 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
         	    				{
         	    					if(type=="left")
                 					{
-            							for(var j = 0; j < this.allFeatures.length; j++) 
+            							for(var j = 0; j < this.validFeatures.length; j++) 
             	    					{
-            	    						var f = this.allFeatures[j];
+            	    						var f = this.validFeatures[j];
             	    						this.jit_feature(job,f,rows,right,f.attributes[""+left],delimiter,type,undefined);
             	    					}
                 					}
@@ -10586,17 +10687,17 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
                 					{
                     					var level = job.remote.join.level;
                     					
-                    					for(var j = 0; j < this.allFeatures.length; j++) 
+                    					for(var j = 0; j < this.validFeatures.length; j++) 
             	    					{
-            	    						var f = this.allFeatures[j];
+            	    						var f = this.validFeatures[j];
             	    						this.jit_feature(job,f,rows,right,f.attributes[""+left],delimiter,type,level);
             	    					}
                 					}
         	    				}
         	    				
-    	    	    			this.activeFeatures = $.grep(this.allFeatures,function(f,i){return (f.attributes.jit==undefined)?(false):(f.attributes.jit.length>0);});
+    	    	    			this.activeFeatures = $.grep(this.validFeatures,function(f,i){return (f.attributes.jit==undefined)?(false):(f.attributes.jit.length>0);});
     	    	    			
-    	    	    			this.layer.removeAllFeatures({"silent":true});
+    	    	    			this.layer.removevalidFeatures({"silent":true});
     	    	    			this.layer.addFeatures(this.activeFeatures);
         	    				
         						this.layer.redraw();
@@ -10679,9 +10780,9 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
 			{
 				if(type=="single")
 				{
-					for(var j = 0; j < this.allFeatures.length; j++) 
+					for(var j = 0; j < this.validFeatures.length; j++) 
 					{
-						var f = this.allFeatures[j];
+						var f = this.validFeatures[j];
 						var key = f.attributes[""+left];
 						
 						var a = source.getValue(key);
@@ -10700,11 +10801,11 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
 					
 					if(include=="all")
 					{
-						this.activeFeatures = this.allFeatures;
+						this.activeFeatures = this.validFeatures;
 					}
 					else
 					{
-						this.activeFeatures = $.grep(this.allFeatures,function(f,i){return f.attributes[""+sourceName]!=undefined;});
+						this.activeFeatures = $.grep(this.validFeatures,function(f,i){return f.attributes[""+sourceName]!=undefined;});
 					}
 				}
 				else if(type=="left")
@@ -10712,9 +10813,9 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
 					/* TODO */
 					if(include=="all")
 					{
-						for(var j = 0; j < this.allFeatures.length; j++) 
+						for(var j = 0; j < this.validFeatures.length; j++) 
 						{
-							var f = this.allFeatures[j];
+							var f = this.validFeatures[j];
 							var key = f.attributes[""+left];
 							var a = [];
 							var b = source.getValue(key);
@@ -10738,14 +10839,14 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
 					}
 					else
 					{
-						this.activeFeatures = $.grep(this.allFeatures,function(f,i){return (f.attributes[""+dest]==undefined)?(false):(f.attributes[""+dest].length>0);});
+						this.activeFeatures = $.grep(this.validFeatures,function(f,i){return (f.attributes[""+dest]==undefined)?(false):(f.attributes[""+dest].length>0);});
 					}
 				}
 				else if(type=="pcode")
 				{					
-					for(var j = 0; j < this.allFeatures.length; j++) 
+					for(var j = 0; j < this.validFeatures.length; j++) 
 					{
-						var f = this.allFeatures[j];
+						var f = this.validFeatures[j];
 						var key = f.attributes[""+left];
 						var a = [];
 						var b = source.getValues(key,true,level); 
@@ -10766,11 +10867,11 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
 					
 					if(include=="all")
 					{
-						this.activeFeatures = this.allFeatures;
+						this.activeFeatures = this.validFeatures;
 					}
 					else
 					{
-						this.activeFeatures = $.grep(this.allFeatures,function(f,i){return (f.attributes[""+dest]==undefined)?(false):(f.attributes[""+dest].length>0);});
+						this.activeFeatures = $.grep(this.validFeatures,function(f,i){return (f.attributes[""+dest]==undefined)?(false):(f.attributes[""+dest].length>0);});
 					}
 				}
 			}
@@ -10892,7 +10993,7 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     },
     calc_concat: function(feature,output,aInput,w)
     {
-    	if(this.testFeature(feature.attributes,w))
+    	if(this.testFeature(feature,feature.attributes,w))
     	{
         	var str = "";
     		for(var i = 0; i < aInput.length; i++)
@@ -10928,7 +11029,7 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     },
     calc_split: function(feature,output,input,delimiter,w)
     {
-    	if(this.testFeature(feature.attributes,w))
+    	if(this.testFeature(feature,feature.attributes,w))
     	{
     		if(CyberGIS.isString(delimiter)&&CyberGIS.isString(output)&&CyberGIS.isString(input))
         	{
@@ -10939,7 +11040,7 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     },
     calc_join: function(feature,output,input,delimiter,w)
     {
-    	if(this.testFeature(feature.attributes,w))
+    	if(this.testFeature(feature,feature.attributes,w))
     	{
     		if(CyberGIS.isString(delimiter)&&CyberGIS.isString(output)&&CyberGIS.isString(input))
         	{
@@ -10950,7 +11051,7 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     },
     calc_grep: function(feature,output,input,aValues,bKeep,w)
     {
-    	if(this.testFeature(feature.attributes,w))
+    	if(this.testFeature(feature,feature.attributes,w))
     	{
     		if(bKeep==undefined)
     		{
@@ -11106,7 +11207,7 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     	}
     },
     
-    testFeature: function(a,w)
+    testFeature: function(f,a,w)
     {
     	if(a!=undefined&&w!=undefined)
     	{
@@ -11121,6 +11222,25 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     		else if(w.op=="not in"||w.op=="notin"||w.op=="not_in")
     		{
     			return $.inArray(a[""+w.field],w.values)==-1;
+    		}
+    		else if(w.op=="not in"||w.op=="notin"||w.op=="not_in")
+    		{
+    			return $.inArray(a[""+w.field],w.values)==-1;
+    		}
+    		else if(w.op=="intersects")
+    		{
+    			if(CyberGIS.isField(w.bbox)&&CyberGIS.extractField(w.bbox)=="map")
+    			{
+    				return this.currentExtent.intersectsBounds(f.geometry.getBounds());
+    			}
+    			else if(w.bbox.match(new RegExp(CyberGIS.regex_bbox)))
+    			{
+    				return (new OpenLayers.Bounds.fromString(w.bbox)).intersectsBounds(f.geometry.getBounds());
+    			}
+    			else
+    			{
+    				return true;
+    			}
     		}
     		else
     		{
