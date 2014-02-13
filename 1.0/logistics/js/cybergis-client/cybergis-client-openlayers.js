@@ -1,24 +1,17 @@
-/*
-===========Author===========
-U.S. Department of State, Humanitarian Information Unit
-
-===========Version===========
-1.0 / February 8, 2014
-
-===========Description===========
-The cybergis-client-openlayers javascript file contains the CyberGIS client application code specific to OpenLayers, including Openlayers.Strategy.JIT, OpenLayers.Control.Focus, OpenLayers.Control.AdvancedSearch, and OpenLayers.Control.AdvancedChart.  It is neccessary for all CyberGIS client applications when those controls, formats, strategies, etc. are used.  It should come after cybergis-client-openlayers-base and cybergis-client-core are loaded.
-
-===========CyberGIS===========
-The Humanitarian Information Unit has been developing a sophisticated geographic computing infrastructure referred to as the CyberGIS. The CyberGIS provides highly available, scalable, reliable, and timely geospatial services capable of supporting multiple concurrent projects.  The CyberGIS relies on primarily open source projects, such as PostGIS, GeoServer, GDAL, OGR, and OpenLayers.  The name CyberGIS is dervied from the term geospatial cyberinfrastructure.
-
-===========License===========
-This project constitutes a work of the United States Government and is not subject to domestic copyright protection under 17 USC § 105.
-
-However, because the project utilizes code licensed from contributors and other third parties, it therefore is licensed under the MIT License. http://opensource.org/licenses/mit-license.php. Under that license, permission is granted free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the conditions that any appropriate copyright notices and this permission notice are included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/**
+* original OpenLayers.Control.AdvancedChart.js
+* @author U.S. Department of State, Humanitarian Information Unit
+* @version 1.0
 */
 
+/**
+ * @author U.S. Department of State, Humanitarian Information Unit
+ * @version 1.0
+ */
+
+/**
+ * @requires OpenLayers/Control.js
+ */
 
 /**
  * Class: OpenLayers.Control.AdvancedLegend
@@ -63,9 +56,13 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
 	collapsedMaxWidth: 220,
 	padding: 40,
 		
-    	layer: null,
+    layer: null,//OpenLayers.Layer.TimeVector
+    //field_label: null,//Name of numeric field that is being visualized
+    //field_value: null,//Name of numeric field that is being visualized
+    
+    //D3 Variables
     chartTitle: "Syrians in Need of Assistance",
-
+    //"<span>E*: Egypt &amp; North Africa (Algeria, Libya, Morocco, and Tunisia)</span>"
     chartNotes:
     [
      "<span>North Africa: Algeria, Libya, Morocco, and Tunisia</span>"
@@ -94,12 +91,42 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     chartTotal: undefined,
     chartDate: undefined,
     
-  
+    /*arcTween: function(a)
+    {
+		var i = d3.interpolate(this._current, a);
+		this._current = i(0);
+		return function(t)
+		{
+			return arc(i(t));
+		};
+	},
+	pie_update: function ()
+	{
+		var value = this.value;
+		
+		pie.value(function(d) { return d.value; });
+		
+		var arcs = svg.selectAll("g.arc")
+			.data(pie);
+			
+		arcs.transition()
+			.duration(500)
+			.attrTween("d", arcTween);
+	},*/
+    
+    
+    /**
+     * @since 1.0
+     * @returns {Boolean}
+     */
     isAnimated: function()
 	{
 		return this.animate;
 	},
-	
+	/**
+	 * @since 1.0
+	 * @returns {Number}
+	 */
     getMaxWidth: function()
     {
     	if(OpenLayers.Element.hasClass(this.mainDiv,"expanded"))
@@ -111,22 +138,36 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     		return this.collapsedMaxWidth;
     	}
     },
-   
+    /**
+     * @since 1.0
+     * @returns {Boolean}
+     */
     isSingle: function()
 	{
 		return this.type=='single';
 	},
-	
+	/**
+	 * @since 1.0
+	 * @returns {Boolean}
+	 */
 	isRange: function()
 	{
 		return this.type=='range';
 	},
-	
+	/**
+	 * @since 1.0
+	 * @param d - original {Date}
+	 * @returns {Date}
+	 */
 	copyDate: function(d)
 	{
 		return new Date(d.getFullYear(),d.getMonth(),d.getDate());
 	},
-	
+	/**
+	 * @since 1.0
+	 * @param format
+	 * @returns
+	 */
     formatCurrentDate: function(format)
     {
     	return this.formatDate(this.getCurrentDate(),format);
@@ -135,16 +176,30 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     {
     	return this.formatNumber1(this.getTotalValue());
     },
-   
+    /**
+     * @since 1.0
+     * @param format
+     * @returns
+     */
     formatCurrentStartDate: function(format)
     {
     	return this.formatDate(this.getCurrentStartDate(),format);
     },
-   
+    /**
+     * @since 1.0
+     * @param format
+     * @returns
+     */
     formatCurrentEndDate: function(format)
     {
     	return this.formatDate(this.getCurrentEndDate(),format);
     },
+    /**
+     * @since 1.0
+     * @param d
+     * @param format
+     * @returns {String}
+     */
     formatDate: function(d,format)
     {
     	if(d!=undefined)
@@ -218,17 +273,29 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     	}
     	return str;
     },
-  
+    /**
+     * @since 1.0
+     * @param date
+     * @param updateUI
+     */
     setCurrentDate: function(date)
     {
     	_setCurrentDate(date);
     },
-    
+    /**
+     * @since 1.0
+     * @param start
+     * @param end
+     * @param updateUI
+     */
     setCurrentDateRange: function(start,end)
     {
     	_setCurrentDateRange(start,end);
     },
-    
+    /**
+     * @since 1.0
+     * @param date
+     */
     _setCurrentDate: function(date)
     {
     	date = this.boundDate(date);
@@ -237,7 +304,11 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     	this.currentTime = date.getTime();
     	this.timeValue = Math.floor((this.currentTime-this.minTime)/86400000);
     },
-    
+    /**
+     * @since 1.0
+     * @param startDate
+     * @param endDate
+     */
     _setCurrentDateRange: function(startDate,endDate)
     {
     	startDate = this.boundDate(startDate);
@@ -252,7 +323,10 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     	var endValue = Math.floor((this.currentTimeRange[1]-this.minTime)/86400000);
     	this.timeValues = [startValue,endValue];
     },
-    
+    /**
+     * @since 1.0
+     * @param startDate
+     */
     _setCurrentStartDate: function(startDate)
     {
     	startDate = this.boundDate(startDate);
@@ -264,7 +338,10 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     	var startValue = Math.floor((startTime-this.minTime)/86400000);
     	this.timeValues[0] = startValue;
     },
-   
+    /**
+     * @since 1.0
+     * @param endDate
+     */
     _setCurrentEndDate: function(endDate)
     {
     	endDate = this.boundDate(endDate);
@@ -276,7 +353,11 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     	var endValue = Math.floor((endTime-this.minTime)/86400000);
     	this.timeValues[1] = endValue;
     },
-   
+    /**
+     * @since 1.0
+     * @param date
+     * @returns
+     */
     boundDate: function(date)
     {
     	var newDate = undefined;
@@ -294,12 +375,18 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     	}
     	return newDate;
     },
-    
+    /**
+     * @since 1.0
+     * @returns
+     */
     getCurrentDate: function()
     {
     	return this.currentDate;
     },
-   
+    /**
+     * @since 1.0
+     * @returns
+     */
     getCurrentStartDate: function()
     {
     	if(this.currentDateRange!=undefined)
@@ -311,7 +398,10 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     		return undefined;
     	}
     },
-   
+    /**
+     * @since 1.0
+     * @returns
+     */
     getCurrentEndDate: function()
     {
     	if(this.currentDateRange!=undefined)
@@ -323,22 +413,34 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     		return undefined;
     	}
     },
-    
+    /**
+     * @since 1.0
+     * @returns
+     */
     getTimeValue: function()
     {
     	return this.timeValue;
     },
-   
+    /**
+     * @since 1.0
+     * @returns
+     */
     getStartTimeValue: function()
     {
     	return this.timeValues[0];
     },
-   
+    /**
+     * @since 1.0
+     * @returns
+     */
     getEndTimeValue: function()
     {
     	return this.timeValues[1];
     },
-   
+    /**
+     * @since 1.0
+     * @returns {Array}
+     */
     getTimeValues: function()
     {
     	return this.timeValues;
@@ -365,6 +467,14 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     },
     refreshChartData: function()
     {
+    	/*	  chartDataset:
+		    [
+		     {"name":"E*","poc":83267,"percent":"5"},
+		     {"name":"Lebanon","poc":495776,"percent":"31"},
+		     {"name":"Jordan","poc":491912,"percent":"31"},
+		     {"name":"Turkey","poc":377154,"percent":"23"},
+		     {"name":"Iraq","poc":153976,"percent":"10"},
+		    ],*/
     	if(this.check_defined([this.sLayer,this.sChart]))
     	{
     		var fLabel = this.getLabelField(this.sLayer,this.sChart);
@@ -405,6 +515,7 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     },
     refreshChartScale: function()
     {
+    	//var fValue = this.getValueField(this.sLayer,this.sChart);
     	if(this.check_defined([this.sLayer,this.sChart]))
     	{
     		var rBar = this.getBarRange(this.sLayer,this.sChart);
@@ -417,31 +528,55 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     		return this.chartScale;
     	}
     },
-   
+    /**
+     * @since 1.0
+     * @returns
+     */
     getMinDate: function()
     {
     	return this.minDate;
     },
-   
+    /**
+     * @since 1.0
+     * @returns
+     */
     getMinTime: function()
     {
     	return this.minTime;
     },
-   
+    /**
+     * @since 1.0
+     * @returns
+     */
     getMaxDate: function()
     {
     	return this.maxDate;
     },
-   
+    /**
+     * @since 1.0
+     * @returns
+     */
     getMaxTime: function()
     {
     	return this.maxTime;
     },
-   
+    /**
+     * @since 1.0
+     * @returns
+     */
     getDays: function()
     {
     	return this.days;
     },
+    /**
+     * @since 1.0
+     */
+  
+    /**
+     * @since 1.0
+     * @param minDate
+     * @param maxDate
+     */
     setDateRange: function(minDate,maxDate)
     {
     	this.minDate = minDate;
@@ -476,6 +611,9 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     	}
     	
     },
+    /**
+     * @since 1.0
+     */
     expand: function()
     {
     	if(!OpenLayers.Element.hasClass(this.mainDiv,'expanded'))
@@ -507,6 +645,13 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
 			that.refresh.apply(that);
 		});
     },
+    
+   
+    /**
+     * @since 1.0
+     * @param layers
+     * @param options
+     */
     initialize: function(layer, sLayer, sChart, options)
     {
     	var that = this;
@@ -582,6 +727,10 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     		this._setCurrentDateRange(startDate,endDate);
     	}
     },
+    /**
+     * @since 1.0
+     * @returns
+     */
     draw: function()
     {
     	var div = OpenLayers.Control.prototype.draw.apply(this);
@@ -590,7 +739,7 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     	{
     		OpenLayers.Element.addClass(div,"single");
     	}
-    	else if(this.isRange())
+    	else if(this.isRange())///if(this.isRange())
     	{
     		OpenLayers.Element.addClass(div,"range");
     	}
@@ -673,11 +822,28 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     },
     refreshBarChart: function()
     {
-	var total = this.getTotalValue();
-	this.chartCanvas.selectAll("rect").transition().attr("y", this.chartScale(total)).attr("height", this.chartScale(0) - this.chartScale(total));
+    	//$(this.barChart).html("");
+    	
+    	//this.arc = d3.svg.arc().innerRadius(this.innerRadius).outerRadius(this.outerRadius);
+		//d3.select(this.barChart).append("svg").attr("width", this.chartWidth).attr("height", this.chartHeight);
+		
+		//var data = this.refreshChartData();
+		//this.appendPieChartPaths(this.pieChart,this.arc,data);
+		
+		var total = this.getTotalValue();
+		this.chartCanvas.selectAll("rect").transition().attr("y", this.chartScale(total)).attr("height", this.chartScale(0) - this.chartScale(total));
     },
     refreshPieChart: function()
     {
+    	//$(this.pieChart).html("");
+    	
+    	//this.arc = d3.svg.arc().innerRadius(this.innerRadius).outerRadius(this.outerRadius);
+		//d3.select(this.pieChart).append("svg").attr("width", this.chartWidth).attr("height", this.chartHeight);
+		
+		//var data = this.refreshChartData();
+    	
+    	
+    	
     	var gPie = this.chartCanvas.selectAll("g.pie");
     	gPie.selectAll("g.arc, g.label").data([]).exit().remove();
 		this.appendPieChartPaths(this.chartCanvas,gPie,this.arc,this.chartData);
@@ -721,10 +887,16 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     		}
     	}
     },
+    /**
+     * @since 1.0
+     */
     onMapResize: function()
     {
     	this._resizeCanvas(true);
     },
+    /**
+     * @since 1.0
+     */
     _resizeCanvas: function(animate)
     {
     	var mapWidth = this.map.getCurrentSize().w;
@@ -746,7 +918,9 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     	this.chartHeight = chartHeight;
     	    	
     	var chartScale = this.refreshChartScale();
-
+    	
+    	//chartHeight = chartWidth = Math.min(chartWidth,chartHeight);
+    	
     	this.outerRadius = Math.min
     	(
     		(this.chartWidth-70-this.getChartGap(mapWidth)-(this.chartPadding.horizontal*2)),
@@ -754,7 +928,10 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     	)/2;
         this.innerRadius = 0;
         this.labelRadius = this.outerRadius+4;
-
+        
+        //d3.select(this.pieChart).select("svg").attr("width", this.chartWidth).attr("height", this.chartHeight);
+        //d3.select(this.pieChart).select("svg").attr({"width":240,"height":240});
+        
         if(animate)
         {
         	this.chartCanvas.selectAll("g.bar g.y.axis").remove();
@@ -785,10 +962,12 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     	{
     		if(mapWidth>1000)
         	{
+        		//chartWidth = 248;
         		chartWidth = 340;
         	}
         	else
         	{
+        		//chartWidth = 168;
         		chartWidth = 240;
         	}
     	}	
@@ -876,6 +1055,7 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     	
     	var transition_label = tSVG.selectAll("g.pie g.label").tween("labels", function(d, i, a)
     	{
+    		//var w = d3.interpolate(oldChartWidth, that.chartHeight);
     		var j = d3.interpolate(this._current, d);
     		var r = d3.interpolate(r0,r1);
          	
@@ -883,6 +1063,7 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
      		{
          		return function(t)
 	         	{
+	         		//var rt = w(t)/2;
 	         		var jt = j(t);
 	         		var rt = r(t);
 	         		var path = arc.outerRadius(rt)(jt);
@@ -896,6 +1077,7 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
 	         		var xt = (x/h * labelRadius);
 	         		var yt = (y/h * labelRadius);
 	         		
+	         		//d3.select(this).attr({"transform":"translate("+rt+","+rt+")"});
 	         		d3.select(this).select("path").attr({"d":path});
 	         		d3.select(this).select("text").attr("transform","translate(" + xt + "," + yt + ")");
 	         	};
@@ -904,10 +1086,12 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
          	{
          		return function(t)
 	         	{
+	         		//var rt = w(t)/2;
 	         		var jt = j(t);
 	         		var rt = r(t);
 	         		var path = arc.outerRadius(rt)(jt);
 	         		
+	         		//d3.select(this).attr({"transform":"translate("+rt+","+rt+")"});
 	         		d3.select(this).select("path").attr({"d":path});
 	         		d3.select(this).select("text").attr({"transform":"translate("+arc.centroid(jt)+")"});
 	         	};
@@ -990,6 +1174,7 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     	return item;
     },   
   
+    //Create
     createChartItem: function()
     {
     	var that = this;
@@ -1029,7 +1214,11 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     createPieChart: function(chartCanvas)
     {
     	try
-    	{    		
+    	{
+    		//d3.select(chartCanvas).append("svg").attr("width", this.chartWidth).attr("height", this.chartHeight);
+    		//this.svg = d3.select(item).append("svg");
+    		//var data = that.refreshChartData();
+    		
     		var gPie = chartCanvas.append("g").attr("class", "pie").attr("transform", "translate(" + (70+this.getChartGap(undefined)+this.outerRadius) + "," + ((this.chartHeight/2)) + ")");
     		
     		this.appendPieChartPaths(chartCanvas,gPie,this.arc,this.chartData);
@@ -1041,6 +1230,11 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
 			throw err;
 		}
     },
+    //Refresh
+
+    
+    
+    
     appendBarChart: function(chartCanvas,chartData,chartScale)
     {
     	var that = this;
@@ -1053,11 +1247,11 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     },
     appendPieChartPaths: function(chartCanvas,gPie,arc,data)
     {
-    	var padding = 0;
+    	var padding = 0;//that.chartPadding.vertical;
     	var that = this;
     	var fLabel = this.getLabelField(this.sLayer,this.sChart);
     	var fValue = this.getValueField(this.sLayer,this.sChart);
-
+    	//var arcs = gPie.selectAll("g.arc").data(this.pie(data)).enter().append("g").attr("class", "arc").attr("transform", "translate(" + (that.outerRadius + padding) + "," + (that.outerRadius + padding) + ")");
     	var arcs = gPie.selectAll("g.arc").data(this.pie(data)).enter().append("g").attr("class", "arc");
     	arcs.each(function(d) { this._current = d; });
     	arcs.append("title").text(function(d){return d.data[""+fValue]+" ("+d.data.percent+"%)";});
@@ -1065,11 +1259,11 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     },
     appendPieChartLabels: function(chartCanvas,gPie,arc,data)
     {
-    	var padding = 0;
+    	var padding = 0;//that.chartPadding.vertical;
     	var that = this;
     	var fLabel = this.getLabelField(this.sLayer,this.sChart);
     	var fValue = this.getValueField(this.sLayer,this.sChart);
-
+    	//var labels = gPie.selectAll("g.label").data(this.pie(data)).enter().append("g").attr("class", "label").attr("transform", "translate(" + (that.outerRadius + padding) + "," + (that.outerRadius + padding) + ")");
     	var labels = gPie.selectAll("g.label").data(this.pie(data)).enter().append("g").attr("class", "label");
     	labels.each(function(d) { this._current = d; });
     	labels.append("path").attr("d",arc).attr('display','none').each(function(d){this._current = d;});
@@ -1212,6 +1406,10 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     	}
     	return range;
     },
+    /**
+     * @since 1.0
+     */
+    
     check_defined: function(a)
     {
     	var pass = true;
@@ -1225,6 +1423,10 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     	}
     	return pass;
     },
+
+    
+    
+    
     destroy: function()
     {
     	  this.sliderEvents.un
@@ -1240,6 +1442,22 @@ OpenLayers.Control.AdvancedChart = OpenLayers.Class(OpenLayers.Control,
     },
     CLASS_NAME: "OpenLayers.Control.AdvancedChart"
 });
+
+/**
+* original OpenLayers.Control.AdvancedLegend.js
+* @author U.S. Department of State, Humanitarian Information Unit
+* @version 1.0
+*/
+
+/**
+ * @author U.S. Department of State, Humanitarian Information Unit
+ * @version 1.0
+ */
+
+/**
+ * @requires OpenLayers/Control.js
+ */
+
 /**
  * Class: OpenLayers.Control.AdvancedLegend
  * The TimeSlider control selects refreshes TimeVector layers based on the date selected.
@@ -1970,12 +2188,19 @@ OpenLayers.Control.AdvancedLegend = OpenLayers.Class(OpenLayers.Control,
     onMapResize: function()
     {
     	this._resizeLegend();
+    	//this._resizeHandles();
     },
     /**
      * @since 1.0
      */
     _resizeLegend: function()
     {
+    	//var m = this.map;
+    	//var w = Math.min(m.getCurrentSize().w-this.padding,this.getMaxWidth());
+    	//var left = "50%";//Should Be Set in CSSssss
+    	//var marginLeft = (""+((-1*(w/2))-(this.padding/4))+"px");
+    	//$(this.mainDiv).css({"left":left,"width":(w+"px"),"margin-left":marginLeft});
+    	//$(this.mainDiv).css({"width":(w+"px"),"margin-left":marginLeft});
     },
      /**
      * @since 1.0
@@ -2484,6 +2709,7 @@ OpenLayers.Control.AdvancedLegend = OpenLayers.Class(OpenLayers.Control,
     							break;
     						}
     					}
+    					//iClassifier = $.grep(this.carto.layers[""+sLayer]["classifications"],function(oClassification,i){return oClassification.type==sType;}).length>0;
     				}
         		}
     		}
@@ -2649,11 +2875,41 @@ $.widget( "custom.autocompleteLayer", $.ui.autocomplete,
 		{
 			if ( item.layer != currentLayer ) 
 			{
-				ul.append( "<li class='ui-autocomplete-category'>" + item.layer + "</li>" );
+				ul.append( "<li class='cybergis-search-layer'>" + item.layer + "</li>" );
 				currentLayer = item.layer;
 			}
 			that._renderItem( ul, item );
 		});
+	},
+	/*
+	 * WARNING this _renderItem override only works on jQueryUI 1.8.14.  It is not compatible with the most recenet api. 
+	 */
+	_renderItem: function (ul, item)
+	{
+		return $("<li></li>").data("item.autocomplete",item).addClass("cybergis-search-feature").append($("<a></a>").text(item.label)).appendTo(ul);
+	}	
+});
+
+$.extend($.ui.autocomplete,
+{
+	filterLayer: function(array, term)
+	{
+		var matcher = new RegExp($.ui.autocomplete.escapeRegex(term),"i");
+		var matches = $.grep(array, function(value)
+		{
+			var match = false;
+			var values = value.values;
+			for(var i = 0; i < values.length; i++)
+			{
+				if(matcher.test(values[i]))
+				{
+					match = true;
+					break;
+				}
+			}
+			return match;
+		});
+		return matches;
 	}
 });
 
@@ -2690,13 +2946,14 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
     passthroughEvents: false,
     blackholeEvents: false,
       
-    acLabel: "label",
+    acLabel: undefined,
+    acLabels: ["label"],
     acFeatures: [],
     acSource: [],
-    acLabels: [],
     
     targetFeature: undefined,
     targetZoom: undefined,
+    currentStatus: undefined,
     
     selectControl: undefined,
      
@@ -2835,6 +3092,7 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
         	this.searchInput.type = "text";
         	$(this.searchInput).attr({"placeholder":"Search ..."});
         	
+        	//$(this.searchInput).data("acSource",[]);
         	this.initializeAutocompleteInput(this.searchInput,"single",false,this.validateAutocomplete,function(){});
         	
         	div.appendChild(this.searchInput);
@@ -2859,7 +3117,6 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
     {
     	this.acFeatures = [];
     	this.acSource = [];
-    	this.acLabels = [];
     	for(var i = 0; i < layers.length; i++)
     	{
     		var layer = layers[i]; 
@@ -2868,21 +3125,22 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
         		for(var j = 0; j < layer.features.length; j++)
         		{
         			var f = layer.features[j];
-        			var label = this.buildAutocompleteLabel(f,layer);
-        			
-
-					if(this.bGroup)
-					{
-						var layerName = layer.name;
-						this.acFeatures.push(f);
-						this.acSource.push({label:label,layer:layerName});
-					}
-					else
-					{
-						this.acFeatures.push(f);
-						this.acSource.push(label);
-					}
-					this.acLabels.push(label);
+        			var labels = this.buildAutocompleteLabels(f,layer);
+        			for(var k = 0; k < labels.length; k++)
+        			{
+        				var label = labels[k];
+    					if(this.bGroup)
+    					{
+    						var layerName = layer.name;
+    						this.acFeatures.push(f);
+    						this.acSource.push({values:[label],label:label,layer:layerName,feature:f});
+    					}
+    					else
+    					{
+    						this.acFeatures.push(f);
+    						this.acSource.push(label);
+    					}
+        			}        			
         		}
         	}
     	}
@@ -2892,17 +3150,18 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
     {
     	this.acFeatures = [];
     	this.acSource = [];
-    	this.acLabels = [];
     	if(layer!=undefined)
     	{
     		for(var i = 0; i < layer.features.length; i++)
     		{
     			var f = layer.features[i];
-    			var label = this.buildAutocompleteLabel(f,layer);
-    			
-    			this.acFeatures.push(f);
-    			this.acSource.push(label);
-			this.acLabels.push(label);
+    			var labels = this.buildAutocompleteLabels(f,layer);
+    			for(var k = 0; k < labels.length; k++)
+    			{
+    				var label = labels[k]; 
+        			this.acFeatures.push(f);
+        			this.acSource.push(label);
+    			}
     		}
     	}
     },
@@ -2910,7 +3169,6 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
     refreshAutocomplete: function()
     {
     	$(this.searchInput).data("acSource",this.acSource);
-    	$(this.searchInput).data("acLabels",this.acLabels);
     },
     setLegendItems: function(proto,items)
     {
@@ -3016,9 +3274,6 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
 		}
     	$(this.mainDiv).stop(true,false);//Kills any current animations, and does NOT complete them.
     	
-    	$(this.searchInput).blur();
-    	$(this.map).focus();
-    	
     	if(this.isAnimated())
 		{
         	var m = this.map;
@@ -3031,6 +3286,11 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
     		this._resizeSearch();
     	}
     	
+    	$(this.searchInput).val("");
+    	this.clearTarget();
+    	
+    	$(this.searchInput).blur();
+    	$(this.map).focus();
     },
     /**
      * @since 1.0
@@ -3044,6 +3304,8 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
     	$(this.mainDiv).stop(true,false);//Kills any current animations, and does NOT complete them.
     	
     	$(this.searchInput).val("");
+    	this.clearTarget();
+    	
     	$(this.map).blur();
     	$(this.searchInput).focus();
     	
@@ -3072,6 +3334,12 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
         {
             this.setLayer(layers);
         }
+        
+        if(CyberGIS.isString(this.acLabel))
+        {
+            this.acLabels = [this.acLabel];
+        }
+        
         
         if(options!=undefined)
         {
@@ -3189,10 +3457,32 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
     	{
         	this.collapse();
     	}
+    	/*if(this.isAnimated())
+		{
+    		this.collapse();
+		}
+    	else
+    	{
+    		if(!OpenLayers.Element.hasClass(this.mainDiv,'collapsed'))
+    		{
+        		OpenLayers.Element.addClass(this.mainDiv, "collapsed");
+    		}
+    	}*/
     },
     onMainLabelClick: function()
     {
     	this.expand();
+    	/*if(this.isAnimated())
+		{
+    		this.expand();
+		}
+    	else
+    	{
+    		if(OpenLayers.Element.hasClass(this.mainDiv,'collapsed'))
+    		{
+        		OpenLayers.Element.removeClass(this.mainDiv, "collapsed");
+    		}
+    	}*/
     },
     onMapClick: function()
     {
@@ -3207,13 +3497,19 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
     onMapResize: function()
     {
     	this._resizeSearch();
+    	//this._resizeHandles();
     },
     /**
      * @since 1.0
      */
     _resizeSearch: function()
     {
-
+    	//var m = this.map;
+    	//var w = Math.min(m.getCurrentSize().w-this.padding,this.getMaxWidth());
+    	//var left = "50%";//Should Be Set in CSSssss
+    	//var marginLeft = (""+((-1*(w/2))-(this.padding/4))+"px");
+    	//$(this.mainDiv).css({"left":left,"width":(w+"px"),"margin-left":marginLeft});
+    	//$(this.mainDiv).css({"width":(w+"px"),"margin-left":marginLeft});
     },
      /**
      * @since 1.0
@@ -3651,6 +3947,7 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
     							break;
     						}
     					}
+    					//iClassifier = $.grep(this.carto.layers[""+sLayer]["classifications"],function(oClassification,i){return oClassification.type==sType;}).length>0;
     				}
         		}
     		}
@@ -3685,26 +3982,6 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
 	onFeatureUnselected: function(f)
 	{
 		this.clearAutocompleteTarget();
-	},
-	setAutocompleteTarget: function(f)
-	{
-		if(this.targetFeature!=f)
-		{
-			this.targetFeature = f;
-			this.targetZoom = this.buildTargetZoom(f,this.map);
-			
-			if(this.hasSelectControl())
-			{
-				var c = f.geometry;
-				
-				var selectControl = this.getSelectControl();
-							
-				selectControl.unFocusAll.apply(selectControl,[true]);
-				
-				selectControl.select.apply(selectControl,[f]);
-				selectControl.focusOnItem.apply(selectControl,[f,c,this.targetZoom]);
-			}
-		}
 	},
 	buildTargetZoom: function(f,map)
     {
@@ -3755,56 +4032,78 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
 			
 			//Bind Events
 			jqElement.change(function(event){var c = $(this).data('context'); c.validateAutocomplete.apply(c,[this]);});
-			jqElement.blur(function(event){var c = $(this).data('context'); c.validateAutocomplete.apply(c,[this]);});
-			jqElement.focus(function(event){var c = $(this).data('context'); c.validateAutocomplete.apply(c,[this]);});
+			//jqElement.blur(function(event){var c = $(this).data('context'); c.validateAutocomplete.apply(c,[this]);});
+			//jqElement.focus(function(event){var c = $(this).data('context'); c.validateAutocomplete.apply(c,[this]);});
 
-			var options =
+			var options = {minLength:0};					
+			if(this.bGroup)
 			{
-				minLength:0,
-				source:function(request,response)
+				options.source = function(request,response)
 				{
-					var aSource = $(this.element).data('acLabels');
+					var aSource = $(this.element).data('acSource');
+					if(aSource!=undefined)
+					{
+						response($.ui.autocomplete.filterLayer(aSource,request.term));
+					}
+					else
+					{
+						response([]);
+					}
+				};
+				options.select = function(event,ui)
+				{
+					this.value = ui.item.value;
+					var c = $(this).data('context');
+					var status = c.setFeatureTarget.apply(c,[ui.item.feature]);
+					c.setStatus.apply(c,[status]);
+					//c.validateAutocomplete.apply(c,[this]);
+					return false;
+				};
+				jqElement.autocompleteLayer(options);				
+			}
+			else
+			{
+				options.source = function(request,response)
+				{
+					var aSource = $(this.element).data('acSource');
 					if(aSource!=undefined)
 					{
 						response($.ui.autocomplete.filter(aSource,request.term));
 					}
 					else
 					{
-						response($.ui.autocomplete.filter([],request.term));
+						response([]);
 					}
-				},
-				select:function(event,ui)
+				};
+				options.select = function(event,ui)
 				{
-					this.value = ui.item.value;
-					
+					this.value = ui.item.value;					
 					var c = $(this).data('context');
-					c.validateAutocomplete.apply(c,[this]);
-					
+					c.validateAutocomplete.apply(c,[this]);					
 					return false;
-				}
-			};
-					
-			if(this.bGroup)
-			{
-				jqElement.autocompleteLayer(options);				
-			}
-			else
-			{
+				};
 				jqElement.autocomplete(options);
 			}
 		}
 	},
-	buildAutocompleteLabel: function(feature,layer)
+	buildAutocompleteLabels: function(feature,layer)
     {
-    	var label = "";
-    	
-    	label += feature.attributes[""+this.acLabel];
-    	
-    	if(this.bAppendLayer)
+    	var labels = [];
+    	for(var i = 0; i < this.acLabels.length; i++)
     	{
-    		label += " ("+layer.name+")";
+    		var field = this.acLabels[i];
+    		var value = feature.attributes[""+field];
+    		if(CyberGIS.isString(value))
+    		{
+    			var label = value;
+            	if(this.bAppendLayer)
+            	{
+            		label += " ("+layer.name+")";
+            	}
+            	labels.push(label);
+    		}
     	}
-		return label;
+		return labels;
     },
     validateAutocomplete: function(input)
     {
@@ -3819,8 +4118,11 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
 			jqInput.removeData('ac-id');
 			status = 0;
 		}
-		else if(line.match(new RegExp("^([-+]?\\d*[.]?\\d*)(\\s*)[,](\\s*)([-+]?\\d*[.]?\\d*)$")))
+		else if(line.match(new RegExp("^(\\s*)([-+]?\\d*[.]?\\d*)(\\s*)[,](\\s*)([-+]?\\d*[.]?\\d*)(\\s*)$")))
 		{
+			jqInput.removeData('ac-id');
+			status = 0;
+			
 			var coord = line.split(",");
 			var strLon = coord[1].trim();
 			var strLat = coord[0].trim();
@@ -3828,16 +4130,27 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
 			var lon = parseFloat(strLon);
 			var lat = parseFloat(strLat);
 			
+			//var lonLat = new OpenLayers.LonLat( lon,lat );
 			var selectControl = this.getSelectControl();
 			
 			var sourceProjection = new OpenLayers.Projection("EPSG:4326");
 			var point = new OpenLayers.LonLat(lon,lat);
 			var targetLocation = point.transform(sourceProjection, this.map.getProjectionObject());
 			
-			selectControl.focusOnItem.apply(selectControl,[undefined,targetLocation]);
+			if(!targetLocation.equals(this.targetLocation))
+			{
+				this.targetLocation = targetLocation;
+				this.targetZoom = null;
+				this.targetFeature = null;
+				selectControl.focusOnItem.apply(selectControl,[undefined,targetLocation]);
+				//$(input).val("");
+			}
 		}
-		else if(line.match(new RegExp("^([-+]?\\d*[.]?\\d*)(\\s*)[,](\\s*)([-+]?\\d*[.]?\\d*)(\\s*)[,](\\s*)(\\d{1,2})$")))
+		else if(line.match(new RegExp("^([-+]?\\d*[.]?\\d*)(\\s*)[,](\\s*)([-+]?\\d*[.]?\\d*)(\\s*)[,](\\s*)(\\d{1,2})(\\s*)$")))
 		{
+			jqInput.removeData('ac-id');
+			status = 0;
+			
 			var coord = line.split(",");
 			var strLon = coord[1].trim();
 			var strLat = coord[0].trim();
@@ -3845,18 +4158,31 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
 			
 			var lon = parseFloat(strLon);
 			var lat = parseFloat(strLat);
-			var zoomLevel  = parseInt(strZoom,10);
-
+			var targetZoom  = parseInt(strZoom,10);
+			
+			//var lonLat = new OpenLayers.LonLat( lon,lat );
 			var selectControl = this.getSelectControl();
 			
 			var sourceProjection = new OpenLayers.Projection("EPSG:4326");
 			var point = new OpenLayers.LonLat(lon,lat);
 			var targetLocation = point.transform(sourceProjection, this.map.getProjectionObject());
 			
-			selectControl.focusOnItem.apply(selectControl,[undefined,targetLocation,zoomLevel]);
+			selectControl.focusOnItem.apply(selectControl,[undefined,targetLocation,targetZoom]);
+			
+			if((!targetLocation.equals(this.targetLocation))&&(this.targetZoom!=targetZoom))
+			{
+				this.targetLocation = targetLocation;
+				this.targetZoom = targetZoom;
+				this.targetFeature = null;
+				selectControl.focusOnItem.apply(selectControl,[undefined,targetLocation,targetZoom]);
+				//$(input).val("");
+			}
 		}
-		else if (line.match(new RegExp("zoom:[0-9]{1,2}","i")))
+		else if(line.match(new RegExp("^(\\s*)zoom(\\s*):(\\s*)(\\d{1,2})(\\s*)$","i"))||line.match(new RegExp("^(\\s*)z(\\s*):(\\s*)(\\d{1,2})(\\s*)$","i")))
 		{
+			jqInput.removeData('ac-id');
+			status = 0;
+			
 			var lineParts = line.split(":");
 			var zoomLevel  = parseInt(lineParts[1],10);
 			
@@ -3869,11 +4195,11 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
 		{
 			if(type=="single")
 			{
-				var index = $.inArray(line,jqInput.data('acLabels'));
+				//var index = $.inArray(line,jqInput.data('acSource'));//{values,label,layerName}
+				var index = this.inSource(line,jqInput.data('acSource'));
 				if(index!=-1)
 				{
-					this.setAutocompleteTarget(this.acFeatures[index]);
-					status = 1;
+					status = this.setFeatureTarget(this.acFeatures[index]);
 				}
 				else
 				{
@@ -3886,23 +4212,86 @@ OpenLayers.Control.AdvancedSearch = OpenLayers.Class(OpenLayers.Control,
 				
 			}
 		}
-		
-		
-		if(status==1)
+		this.setStatus(status);
+	},
+	setFeatureTarget: function(f)
+	{
+		if(this.targetFeature!=f)
 		{
-			jqInput.addClass('valid');
-			jqInput.removeClass('invalid');
+			this.targetLocation = null;
+			this.targetZoom = null;
+			this.targetFeature = f;
+			this.targetZoom = this.buildTargetZoom(f,this.map);
+			
+			if(this.hasSelectControl())
+			{
+				var c = f.geometry;				
+				var selectControl = this.getSelectControl();							
+				selectControl.unFocusAll.apply(selectControl,[true]);				
+				selectControl.select.apply(selectControl,[f]);
+				selectControl.focusOnItem.apply(selectControl,[f,c,this.targetZoom]);
+			}
 		}
-		else if(status==-1)
+		return 1;
+	},
+	setStatus: function(status)
+	{
+		if(this.currentStatus!=status)
 		{
-			jqInput.removeClass('valid');
-			jqInput.addClass('invalid');
+			if(status==1)
+			{
+				$(this.searchInput).addClass('valid');
+				$(this.searchInput).removeClass('invalid');
+			}
+			else if(status==-1)
+			{
+				$(this.searchInput).removeClass('valid');
+				$(this.searchInput).addClass('invalid');
+			}
+			else
+			{
+				$(this.searchInput).removeClass('valid');
+				$(this.searchInput).removeClass('invalid');
+			}
 		}
-		else
+	},
+	inSource: function(line, source)
+	{
+		var index = -1;
+		if(CyberGIS.isArray(source))
 		{
-			jqInput.removeClass('valid');
-			jqInput.removeClass('invalid');
+			if(this.bGroup)
+			{
+				//var matcher = new RegExp(CyberGIS.escapeRegex(line), "i" );
+				for(var i = 0; i < source.length; i++)
+				{
+					var a = source[i].values;
+					for(var j = 0; j < a.length; j++)
+					{
+						if(line.toLowerCase()==a[j].toLowerCase())
+						{
+							index = i;
+							break;
+						}
+					}
+					if(index!=-1)
+					{
+						break;
+					}
+				}
+			}
+			else
+			{
+				index = $.inArray(line,source);
+			}
 		}
+		return index;
+	},
+	clearTarget: function()
+	{
+		this.targetLocation = null;
+    	this.targetZoom = null;
+    	this.targetFeature = null;
 	},
 	/*------------------------------------------------------- Carto Functions -------------------------------------------------------*/
 	getDefaultSymbolizer: function(sLayer,defaultSymbolizerObject)
@@ -4357,6 +4746,8 @@ OpenLayers.Control.AdvancedSelectFeature = OpenLayers.Class(OpenLayers.Control.S
             	}
         		$.ajax({url: u,type: "GET",contentType: "application/json; charset=\"utf-8\"",beforeSend: hiu.beforeSend,complete: function(xData,status)
         		{
+        			//var layer = that;//"id":j.id,"join":j.join,"delimiter":j.delimiter,
+        			console.log('jit complete status: '+status);
         			var j2 = layer.options.jit;
         			if(j2!=undefined)
         			{
@@ -5646,6 +6037,14 @@ OpenLayers.Control.AdvancedSelectFeatureWheel = OpenLayers.Class(OpenLayers.Cont
 		var a = f.attributes;
     	var btn = f.link.attributes.btn;
     	
+    	/*if(this.isJITLayer(f.link.layer))
+    	{
+    		this.clearJITQueue();
+    		if(!this.isLoaded(f.link))
+        	{
+    			this.jit_request(f.link,true);
+        	}
+    	}*/
     	if(this.isJITLayer(f.link.layer))
     	{
     		this.clearJITQueue();
@@ -5670,6 +6069,7 @@ OpenLayers.Control.AdvancedSelectFeatureWheel = OpenLayers.Class(OpenLayers.Cont
         		else
         		{
         			this.queueJIT(f,f.link.layer,f.link.attributes,f.geometry,a.anchorPosition);
+        			//queuePopupFunction_Core: function(f,layer,attributes,anchorLocation,anchorPosition,onClose)
         		}
         	}
     		else
@@ -5984,6 +6384,24 @@ OpenLayers.Control.Bookmarks = OpenLayers.Class(OpenLayers.Control,
 			that.refresh.apply(that);
 		});
     	 
+    	/*var that = this;
+    	if(this.layers!=undefined)
+        {
+    		for(var i = 0; i < this.layers.length; i++)
+        	{
+            	map.events.register('zoomend',this.layers[i],function()
+    	      	{
+    				that.refresh.apply(that);
+    			});
+        	}
+        }
+        else
+        {
+        	map.events.register('zoomend',this.layer,function()
+	      	{
+				that.refresh.apply(that);
+			});
+        }*/
     },  
     initialize: function(layers, bookmarks, options)
     {
@@ -6043,6 +6461,9 @@ OpenLayers.Control.Bookmarks = OpenLayers.Class(OpenLayers.Control,
         
         var events = this.map.events;
 		events.registerPriority("click",this,this.onMapClick);
+
+		//this.refresh();
+		//this.refreshLayers(undefined,this.bookmarks,this.bookmarkContainers);//Bypass layers, since we know they don't have any data in them yet.
 		
         return div;
     },
@@ -6166,6 +6587,8 @@ OpenLayers.Control.Bookmarks = OpenLayers.Class(OpenLayers.Control,
 				
 				var focusControl = this.getFocusControl();
 				
+				//focusControl.unFocusOnItem.apply(focusControl);//Removes popup and timers immediately
+				//focusControl.unselectAll.apply(focusControl);
 				
 				focusControl.unFocusAll.apply(focusControl,[true]);
 				
@@ -6173,6 +6596,11 @@ OpenLayers.Control.Bookmarks = OpenLayers.Class(OpenLayers.Control,
 				focusControl.focusOnItem.apply(focusControl,[f,c]);
 			}
 			
+			//var focusControl = this.map.
+			
+			
+			//this.select(f);
+	    	//this.focusOnItem(f,c);
 		}
 	},
 	clearAutocompleteTarget: function()
@@ -7303,6 +7731,7 @@ OpenLayers.Control.Focus = OpenLayers.Class(OpenLayers.Control,
     		{
     			this.map.moveTo(c, z, {'dragging': undefined,'forceZoomChange': undefined, 'silent':true});
             }
+    		//else Don't do anything, since that you don't need to move, b/c you're already so close.
     	}
     	else
     	{
@@ -9913,11 +10342,13 @@ OpenLayers.Protocol.SOAP = OpenLayers.Class(OpenLayers.Protocol.HTTP,
 OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
 {
 	regex_field: "^(\\${)(\\w+)(})$",
+	regex_bbox: "^(\\s*)([-+]?\\d*[.]?\\d*)(\\s*)[,](\\s*)([-+]?\\d*[.]?\\d*)(\\s*)[,](\\s*)([-+]?\\d*[.]?\\d*)(\\s*)[,](\\s*)([-+]?\\d*[.]?\\d*)(\\s*)$",
 	
 	//refresh: undefined,
 	//join: undefined,
 	//file: undefined,
 	//agg: undefined,
+	grep: undefined,/* Global Grep for all features.  Executed first within onLoadEvent before jobs execute*/
 	jobs: undefined,
 	
 	listeners: [],//{url,context,job}
@@ -9925,20 +10356,29 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
 	hideEmpty: true,
 	
 	allFeatures: undefined,
+	validFeatures: undefined,/* Grep'd allFeatures if grep != undefined*/
 	activeFeatures: undefined,
+	
+	/* These variables are updated at the beginning of onLoadEnd and should be valid during any job*/
+	currentExtent: undefined,
 
-	initialize: function(jobs, options)
+	initialize: function(jobs, grep, options)
     {
 		OpenLayers.Strategy.Fixed.prototype.initialize.apply(this, [options]);
         if(OpenLayers.Util.isArray(jobs))
         {
         	this.setJobs(jobs);
         }
+        this.setGrep(grep);
     },
     
     setJobs: function(jobs)
     {
     	this.jobs = jobs;
+    },
+    setGrep: function(grep)
+    {
+    	this.grep = grep;
     },
     getJob: function(i)
     {
@@ -10027,6 +10467,9 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     },    
     onLoadEnd: function()
     {
+    	this.currentExtent = this.getCurrentExtent();
+    	this.validFeatures = this.grepFeatures(this.allFeatures);
+    	/////////////////////////////////    	
     	for(var i = 0; i < this.jobs.length; i++)
     	{
     		var job = this.jobs[i];
@@ -10108,6 +10551,31 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     		}
     	}
     },
+    grepFeatures: function(features)
+    {
+    	if(this.grep!=undefined)
+    	{
+    		var that = this;
+        	return $.grep(features,function(f){return that.testFeature.apply(that,[f,f.attributes,that.grep]);});
+    	}
+    	return features;
+    },
+    
+    
+    getCurrentExtent: function()
+    {
+    	var extent = undefined;
+    	var m = this.layer.map;
+    	var c = m.getCachedCenter();
+    	var r = m.getResolution();    
+        if ((c != null) && (r != null))
+        {
+            var halfWDeg = (m.size.w * r) / 2;
+            var halfHDeg = (m.size.h * r) / 2;        
+            extent = new OpenLayers.Bounds(c.lon - halfWDeg, c.lat - halfHDeg, c.lon + halfWDeg, c.lat + halfHDeg);
+        }
+        return extent;
+    },
     
     runJob: function(i)
     {
@@ -10125,9 +10593,9 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     {
     	if(job.tasks!=undefined)
     	{
-        	for(var i = 0; i < this.allFeatures.length; i++) 
+        	for(var i = 0; i < this.validFeatures.length; i++) 
     		{
-    			var f = this.allFeatures[i];
+    			var f = this.validFeatures[i];
 	    		for(var j = 0; j < job.tasks.length; j++)
 	    		{
 	    			var task = job.tasks[j];
@@ -10142,11 +10610,11 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     		if(job.grep!=undefined)
     		{
     			var that = this;
-    			this.activeFeatures = $.grep(this.allFeatures,function(f,i){return that.testFeature(f.attributes,job.grep);});
+    			this.activeFeatures = $.grep(this.validFeatures,function(f,i){return that.testFeature(f,f.attributes,job.grep);});
     		}
     		else
     		{
-    			this.activeFeatures = this.allFeatures;
+    			this.activeFeatures = this.validFeatures;
     		}
     	}
     	else if(job.type=="advanced")
@@ -10154,7 +10622,7 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     		if(job.grep!=undefined)
     		{
     			var that = this;
-    			this.activeFeatures = $.grep(this.allFeatures,function(f,i){return that.testFeature(feature.attributes,job.grep);});
+    			this.activeFeatures = $.grep(this.validFeatures,function(f,i){return that.testFeature(f,f.attributes,job.grep);});
     			
     			if(this.hideEmpty)
         		{
@@ -10165,11 +10633,11 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     		{
     			if(this.hideEmpty)
         		{
-        			this.activeFeatures = $.grep(this.allFeatures,function(f,i){return f.attributes.jit.length>0;});
+        			this.activeFeatures = $.grep(this.validFeatures,function(f,i){return f.attributes.jit.length>0;});
         		}
         		else
         		{
-        			this.activeFeatures = this.allFeatures;	
+        			this.activeFeatures = this.validFeatures;	
         		}
     		}
     	}
@@ -10209,9 +10677,9 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
         	    				{
         	    					if(type=="left")
                 					{
-            							for(var j = 0; j < this.allFeatures.length; j++) 
+            							for(var j = 0; j < this.validFeatures.length; j++) 
             	    					{
-            	    						var f = this.allFeatures[j];
+            	    						var f = this.validFeatures[j];
             	    						this.jit_feature(job,f,rows,right,f.attributes[""+left],delimiter,type,undefined);
             	    					}
                 					}
@@ -10219,17 +10687,17 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
                 					{
                     					var level = job.remote.join.level;
                     					
-                    					for(var j = 0; j < this.allFeatures.length; j++) 
+                    					for(var j = 0; j < this.validFeatures.length; j++) 
             	    					{
-            	    						var f = this.allFeatures[j];
+            	    						var f = this.validFeatures[j];
             	    						this.jit_feature(job,f,rows,right,f.attributes[""+left],delimiter,type,level);
             	    					}
                 					}
         	    				}
         	    				
-    	    	    			this.activeFeatures = $.grep(this.allFeatures,function(f,i){return (f.attributes.jit==undefined)?(false):(f.attributes.jit.length>0);});
+    	    	    			this.activeFeatures = $.grep(this.validFeatures,function(f,i){return (f.attributes.jit==undefined)?(false):(f.attributes.jit.length>0);});
     	    	    			
-    	    	    			this.layer.removeAllFeatures({"silent":true});
+    	    	    			this.layer.removevalidFeatures({"silent":true});
     	    	    			this.layer.addFeatures(this.activeFeatures);
         	    				
         						this.layer.redraw();
@@ -10312,9 +10780,9 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
 			{
 				if(type=="single")
 				{
-					for(var j = 0; j < this.allFeatures.length; j++) 
+					for(var j = 0; j < this.validFeatures.length; j++) 
 					{
-						var f = this.allFeatures[j];
+						var f = this.validFeatures[j];
 						var key = f.attributes[""+left];
 						
 						var a = source.getValue(key);
@@ -10333,11 +10801,11 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
 					
 					if(include=="all")
 					{
-						this.activeFeatures = this.allFeatures;
+						this.activeFeatures = this.validFeatures;
 					}
 					else
 					{
-						this.activeFeatures = $.grep(this.allFeatures,function(f,i){return f.attributes[""+sourceName]!=undefined;});
+						this.activeFeatures = $.grep(this.validFeatures,function(f,i){return f.attributes[""+sourceName]!=undefined;});
 					}
 				}
 				else if(type=="left")
@@ -10345,9 +10813,9 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
 					/* TODO */
 					if(include=="all")
 					{
-						for(var j = 0; j < this.allFeatures.length; j++) 
+						for(var j = 0; j < this.validFeatures.length; j++) 
 						{
-							var f = this.allFeatures[j];
+							var f = this.validFeatures[j];
 							var key = f.attributes[""+left];
 							var a = [];
 							var b = source.getValue(key);
@@ -10371,14 +10839,14 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
 					}
 					else
 					{
-						this.activeFeatures = $.grep(this.allFeatures,function(f,i){return (f.attributes[""+dest]==undefined)?(false):(f.attributes[""+dest].length>0);});
+						this.activeFeatures = $.grep(this.validFeatures,function(f,i){return (f.attributes[""+dest]==undefined)?(false):(f.attributes[""+dest].length>0);});
 					}
 				}
 				else if(type=="pcode")
 				{					
-					for(var j = 0; j < this.allFeatures.length; j++) 
+					for(var j = 0; j < this.validFeatures.length; j++) 
 					{
-						var f = this.allFeatures[j];
+						var f = this.validFeatures[j];
 						var key = f.attributes[""+left];
 						var a = [];
 						var b = source.getValues(key,true,level); 
@@ -10399,11 +10867,11 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
 					
 					if(include=="all")
 					{
-						this.activeFeatures = this.allFeatures;
+						this.activeFeatures = this.validFeatures;
 					}
 					else
 					{
-						this.activeFeatures = $.grep(this.allFeatures,function(f,i){return (f.attributes[""+dest]==undefined)?(false):(f.attributes[""+dest].length>0);});
+						this.activeFeatures = $.grep(this.validFeatures,function(f,i){return (f.attributes[""+dest]==undefined)?(false):(f.attributes[""+dest].length>0);});
 					}
 				}
 			}
@@ -10525,7 +10993,7 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     },
     calc_concat: function(feature,output,aInput,w)
     {
-    	if(this.testFeature(feature.attributes,w))
+    	if(this.testFeature(feature,feature.attributes,w))
     	{
         	var str = "";
     		for(var i = 0; i < aInput.length; i++)
@@ -10561,7 +11029,7 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     },
     calc_split: function(feature,output,input,delimiter,w)
     {
-    	if(this.testFeature(feature.attributes,w))
+    	if(this.testFeature(feature,feature.attributes,w))
     	{
     		if(CyberGIS.isString(delimiter)&&CyberGIS.isString(output)&&CyberGIS.isString(input))
         	{
@@ -10572,7 +11040,7 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     },
     calc_join: function(feature,output,input,delimiter,w)
     {
-    	if(this.testFeature(feature.attributes,w))
+    	if(this.testFeature(feature,feature.attributes,w))
     	{
     		if(CyberGIS.isString(delimiter)&&CyberGIS.isString(output)&&CyberGIS.isString(input))
         	{
@@ -10583,7 +11051,7 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     },
     calc_grep: function(feature,output,input,aValues,bKeep,w)
     {
-    	if(this.testFeature(feature.attributes,w))
+    	if(this.testFeature(feature,feature.attributes,w))
     	{
     		if(bKeep==undefined)
     		{
@@ -10739,7 +11207,7 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     	}
     },
     
-    testFeature: function(a,w)
+    testFeature: function(f,a,w)
     {
     	if(a!=undefined&&w!=undefined)
     	{
@@ -10754,6 +11222,25 @@ OpenLayers.Strategy.JIT = OpenLayers.Class(OpenLayers.Strategy.Fixed,
     		else if(w.op=="not in"||w.op=="notin"||w.op=="not_in")
     		{
     			return $.inArray(a[""+w.field],w.values)==-1;
+    		}
+    		else if(w.op=="not in"||w.op=="notin"||w.op=="not_in")
+    		{
+    			return $.inArray(a[""+w.field],w.values)==-1;
+    		}
+    		else if(w.op=="intersects")
+    		{
+    			if(CyberGIS.isField(w.bbox)&&CyberGIS.extractField(w.bbox)=="map")
+    			{
+    				return this.currentExtent.intersectsBounds(f.geometry.getBounds());
+    			}
+    			else if(w.bbox.match(new RegExp(CyberGIS.regex_bbox)))
+    			{
+    				return (new OpenLayers.Bounds.fromString(w.bbox)).intersectsBounds(f.geometry.getBounds());
+    			}
+    			else
+    			{
+    				return true;
+    			}
     		}
     		else
     		{
